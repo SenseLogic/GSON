@@ -52,6 +52,30 @@ Granular Structured Object Notation.
                 "age":
                     38
             }
+        },
+    "personByIdMap":
+        {
+            "mike":
+                {
+                    "name":
+                        "Mike",
+                    "age":
+                        35
+                },
+            "nina":
+                {
+                    "name":
+                        "Nina",
+                    "age":
+                        32
+                },
+            "pete":
+                {
+                    "name":
+                        "Pete",
+                    "age":
+                        38
+                }
         ],
     "escaped":
         "\u2034",
