@@ -1,0 +1,46 @@
+{
+    "path":
+        "test.json",
+    "text":
+        ‴first line
+        second line
+        third line ‗
+        ‗ fourth line
+        fifth line‴,
+    "person":
+        {
+            "name":
+                "Jack",
+            "age":
+                48
+        },
+    "personArray":
+        [
+            {
+                "name":
+                    "Mike",
+                "age":
+                    35
+            },
+            {
+                "name":
+                    "Nina",
+                "age":
+                    32
+            },
+            {
+                "name":
+                    "Pete",
+                "age":
+                    38
+            }
+        ],
+    "escaped":
+        "‴",
+    "uuid":
+        ‴‼#jack‴,
+    "tuid":
+        ‴‼%jack‴,
+    "included":
+        ‴‼@included.gson‴
+}

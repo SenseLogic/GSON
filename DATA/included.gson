@@ -1,0 +1,14 @@
+{
+    "path":
+        "included.json",
+    "text":
+        ‴first line
+        second line
+        third line ‗
+        ‗ fourth line
+        fifth line‴,
+    "included1":
+        ‴‼@included/included_1.gson‴,
+    "included2":
+        ‴‼@included/included_2.gson‴
+}
