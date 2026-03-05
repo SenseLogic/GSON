@@ -3,18 +3,14 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
-// -- CONSTANTS
-
-const bool isBrowser = false;
-
 // -- FUNCTIONS
 
 String getTextHash(
     String text
     )
 {
-    var bytes = utf8.encode( text );
-    var digest = md5.convert( bytes );
+    var byteArray = utf8.encode( text );
+    var digest = md5.convert( byteArray );
 
     return digest.toString();
 }
@@ -59,29 +55,7 @@ String getTextTuid(
     }
     else
     {
-        var hash = getTextHash( text );
-        var tuid = '';
-
-        if ( isBrowser )
-        {
-            var buffer = '';
-
-            for ( var byteIndex = 0; byteIndex < hash.length; byteIndex += 2 )
-            {
-                buffer += String.fromCharCode( int.parse( hash.substring( byteIndex, byteIndex + 2 ), radix: 16 ) );
-            }
-
-            tuid = base64Encode( utf8.encode( buffer ) );
-        }
-        else
-        {
-            var hexBytes = <int>[];
-            for ( var i = 0; i < hash.length; i += 2 )
-            {
-                hexBytes.add( int.parse( hash.substring( i, i + 2 ), radix: 16 ) );
-            }
-            tuid = base64Encode( hexBytes );
-        }
+        var tuid = base64Encode( md5.convert( utf8.encode( text ) ).bytes );
 
         return (
             tuid

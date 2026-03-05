@@ -2,7 +2,7 @@ name: senselogic_gson
 description: Granular Structured Object Notation.
 homepage: https://github.com/senselogic/GSON
 repository: https://github.com/senselogic/GSON
-version: 0.1.3
+version: 0.1.4
 
 environment:
   sdk: '>=3.0.0 <4.0.0'

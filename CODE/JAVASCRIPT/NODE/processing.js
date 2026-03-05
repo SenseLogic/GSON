@@ -2,11 +2,6 @@
 
 import md5 from 'md5';
 
-// -- CONSTANTS
-
-const
-    isBrowser = ( typeof window !== 'undefined' && typeof window.document !== 'undefined' );
-
 // -- FUNCTIONS
 
 export function getTextHash(
@@ -57,23 +52,17 @@ export function getTextTuid(
     else
     {
         let hash = md5( text );
-        let tuid = '';
 
-        if ( isBrowser )
+        let byteArray = new Array( 16 );
+
+        for ( let characterIndex = 0;
+              characterIndex < 32;
+              characterIndex += 2 )
         {
-            let buffer = '';
-
-            for ( let byteIndex = 0; byteIndex < hash.length; byteIndex += 2 )
-            {
-                buffer += String.fromCharCode( parseInt( hash.slice( byteIndex, byteIndex + 2 ), 16 ) );
-            }
-
-            tuid = btoa( buffer );
+            byteArray[ characterIndex >> 1 ] = String.fromCharCode( parseInt( hash.slice( characterIndex, characterIndex + 2 ), 16 ) );
         }
-        else
-        {
-            tuid = Buffer.from( hash, 'hex' ).toString( 'base64' );
-        }
+
+        let tuid = btoa( byteArray.join( '' ) );
 
         return (
             tuid

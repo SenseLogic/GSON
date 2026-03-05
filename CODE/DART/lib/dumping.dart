@@ -56,7 +56,9 @@ String getDumpText(
             return text;
         }
     }
-    else if ( value is Map && value.isNotEmpty && value.keys.any( ( k ) => k is! String ) )
+    else if ( value is Map
+              && value.isNotEmpty
+              && value.keys.any( ( k ) => k is! String ) )
     {
         var text = 'Map(' + value.length.toString() + ') {\n';
         var indent = getIndentationText( ( level + 1 ) * levelSpaceCount );

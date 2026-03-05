@@ -41,7 +41,7 @@ String getEscapedLine(
                     var codeUnit = character.codeUnitAt( 0 );
 
                     return '\\u${ codeUnit.toRadixString( 16 ).padLeft( 4, '0' ) }';
-                } 
+                }
                 )
             .replaceAll( '‴', '\\u2034' );
 }
@@ -57,7 +57,9 @@ String getMultilineString(
     var lineCount = lineArray.length;
     var multilineString = indentationText + '‴';
 
-    for ( var lineIndex = 0; lineIndex < lineCount; ++lineIndex )
+    for ( var lineIndex = 0;
+          lineIndex < lineCount;
+          ++lineIndex )
     {
         var line = lineArray[ lineIndex ];
         var startingSpaceCount = 0;
@@ -124,7 +126,7 @@ void buildGsonString(
     ]
     )
 {
-    var indent = getIndentationText( level * ( context[ 'levelSpaceCount' ] as int ) );
+    var indentationText  = getIndentationText( level * ( context[ 'levelSpaceCount' ] as int ) );
 
     if ( value.startsWith( '‼' )
          || value.contains( '\n' ) )
@@ -132,15 +134,17 @@ void buildGsonString(
         if ( value.startsWith( '‼' ) )
         {
             var text = '‴' + getEscapedLine( value ) + '‴' + lineSuffix;
-            ( context[ 'lineArray' ] as List<String> ).add( indent + text );
+            ( context[ 'lineArray' ] as List<String> ).add( indentationText  + text );
         }
         else
         {
-            var multilineString = getMultilineString( value, indent );
+            var multilineString = getMultilineString( value, indentationText  );
             var lineArray = multilineString.split( '\n' );
             var lastIndex = lineArray.length - 1;
 
-            for ( var lineIndex = 0; lineIndex < lineArray.length; ++lineIndex )
+            for ( var lineIndex = 0;
+                  lineIndex < lineArray.length;
+                  ++lineIndex )
             {
                 var line = lineArray[ lineIndex ];
 
@@ -157,7 +161,7 @@ void buildGsonString(
     else
     {
         var text = jsonEncode( value ) + lineSuffix;
-        ( context[ 'lineArray' ] as List<String> ).add( indent + text );
+        ( context[ 'lineArray' ] as List<String> ).add( indentationText  + text );
     }
 }
 
@@ -169,7 +173,7 @@ void buildGsonValue(
     int level
     )
 {
-    var indent = getIndentationText( level * ( context[ 'levelSpaceCount' ] as int ) );
+    var indentationText  = getIndentationText( level * ( context[ 'levelSpaceCount' ] as int ) );
 
     if ( value is String )
     {
@@ -177,11 +181,13 @@ void buildGsonValue(
     }
     else if ( value is List )
     {
-        ( context[ 'lineArray' ] as List<String> ).add( indent + '[' );
+        ( context[ 'lineArray' ] as List<String> ).add( indentationText  + '[' );
 
         var elementCount = value.length;
 
-        for ( var elementIndex = 0; elementIndex < elementCount; ++elementIndex )
+        for ( var elementIndex = 0;
+              elementIndex < elementCount;
+              ++elementIndex )
         {
             var element = value[ elementIndex ];
             var lineSuffix = ( elementIndex < elementCount - 1 ) ? ',' : '';
@@ -200,24 +206,26 @@ void buildGsonValue(
             }
         }
 
-        ( context[ 'lineArray' ] as List<String> ).add( indent + ']' );
+        ( context[ 'lineArray' ] as List<String> ).add( indentationText  + ']' );
     }
     else if ( value != null
               && value is Map )
     {
-        ( context[ 'lineArray' ] as List<String> ).add( indent + '{' );
+        ( context[ 'lineArray' ] as List<String> ).add( indentationText  + '{' );
 
-        var keys = value.keys.toList();
-        var keyCount = keys.length;
+        var keyArray = value.keys.toList();
+        var keyCount = keyArray.length;
 
-        for ( var keyIndex = 0; keyIndex < keyCount; ++keyIndex )
+        for ( var keyIndex = 0;
+              keyIndex < keyCount;
+              ++keyIndex )
         {
-            var key = keys[ keyIndex ];
-            var keyIndent = getIndentationText( ( level + 1 ) * ( context[ 'levelSpaceCount' ] as int ) );
+            var key = keyArray[ keyIndex ];
+            var keyIndentationText = getIndentationText( ( level + 1 ) * ( context[ 'levelSpaceCount' ] as int ) );
             var valueIndentLevel = level + 2;
             var lineSuffix = ( keyIndex < keyCount - 1 ) ? ',' : '';
 
-            ( context[ 'lineArray' ] as List<String> ).add( keyIndent + jsonEncode( key ) + ':' );
+            ( context[ 'lineArray' ] as List<String> ).add( keyIndentationText + jsonEncode( key ) + ':' );
 
             buildGsonValue(
                 value[ key ],
@@ -233,11 +241,11 @@ void buildGsonValue(
             }
         }
 
-        ( context[ 'lineArray' ] as List<String> ).add( indent + '}' );
+        ( context[ 'lineArray' ] as List<String> ).add( indentationText  + '}' );
     }
     else
     {
-        ( context[ 'lineArray' ] as List<String> ).add( indent + jsonEncode( value ) );
+        ( context[ 'lineArray' ] as List<String> ).add( indentationText  + jsonEncode( value ) );
     }
 }
 

@@ -45,8 +45,8 @@ function getMultilineString(
     let lineCount = lineArray.length;
     let multilineString = indentationText + '‴';
 
-    for ( let lineIndex = 0; 
-          lineIndex < lineCount; 
+    for ( let lineIndex = 0;
+          lineIndex < lineCount;
           ++lineIndex )
     {
         let line = lineArray[ lineIndex ];
@@ -113,7 +113,7 @@ function buildGsonString(
     lineSuffix = ''
     )
 {
-    let indent = getIndentationText( level * context.levelSpaceCount );
+    let indentationText  = getIndentationText( level * context.levelSpaceCount );
 
     if ( value.startsWith( '‼' )
          || value.includes( '\n' ) )
@@ -121,15 +121,17 @@ function buildGsonString(
         if ( value.startsWith( '‼' ) )
         {
             let text = '‴' + getEscapedLine( value ) + '‴' + lineSuffix;
-            context.lineArray.push( indent + text );
+            context.lineArray.push( indentationText  + text );
         }
         else
         {
-            let multilineString = getMultilineString( value, indent );
+            let multilineString = getMultilineString( value, indentationText  );
             let lineArray = multilineString.split( '\n' );
             let lastIndex = lineArray.length - 1;
 
-            for ( let lineIndex = 0; lineIndex < lineArray.length; ++lineIndex )
+            for ( let lineIndex = 0;
+                  lineIndex < lineArray.length;
+                  ++lineIndex )
             {
                 let line = lineArray[ lineIndex ];
 
@@ -146,7 +148,7 @@ function buildGsonString(
     else
     {
         let text = JSON.stringify( value ) + lineSuffix;
-        context.lineArray.push( indent + text );
+        context.lineArray.push( indentationText  + text );
     }
 }
 
@@ -158,7 +160,7 @@ function buildGsonValue(
     level
     )
 {
-    let indent = getIndentationText( level * context.levelSpaceCount );
+    let indentationText  = getIndentationText( level * context.levelSpaceCount );
 
     if ( typeof value === 'string' )
     {
@@ -166,11 +168,13 @@ function buildGsonValue(
     }
     else if ( Array.isArray( value ) )
     {
-        context.lineArray.push( indent + '[' );
+        context.lineArray.push( indentationText  + '[' );
 
         let elementCount = value.length;
 
-        for ( let elementIndex = 0; elementIndex < elementCount; ++elementIndex )
+        for ( let elementIndex = 0;
+              elementIndex < elementCount;
+              ++elementIndex )
         {
             let element = value[ elementIndex ];
             let lineSuffix = ( elementIndex < elementCount - 1 ) ? ',' : '';
@@ -188,24 +192,26 @@ function buildGsonValue(
             }
         }
 
-        context.lineArray.push( indent + ']' );
+        context.lineArray.push( indentationText  + ']' );
     }
     else if ( value !== null
               && typeof value === 'object' )
     {
-        context.lineArray.push( indent + '{' );
+        context.lineArray.push( indentationText  + '{' );
 
-        let keys = Object.keys( value );
-        let keyCount = keys.length;
+        let keyArray = Object.keys( value );
+        let keyCount = keyArray.length;
 
-        for ( let keyIndex = 0; keyIndex < keyCount; ++keyIndex )
+        for ( let keyIndex = 0;
+              keyIndex < keyCount;
+              ++keyIndex )
         {
-            let key = keys[ keyIndex ];
-            let keyIndent = getIndentationText( ( level + 1 ) * context.levelSpaceCount );
+            let key = keyArray[ keyIndex ];
+            let keyIndentationText = getIndentationText( ( level + 1 ) * context.levelSpaceCount );
             let valueIndentLevel = level + 2;
             let lineSuffix = ( keyIndex < keyCount - 1 ) ? ',' : '';
 
-            context.lineArray.push( keyIndent + JSON.stringify( key ) + ':' );
+            context.lineArray.push( keyIndentationText + JSON.stringify( key ) + ':' );
 
             buildGsonValue(
                 value[ key ],
@@ -220,11 +226,11 @@ function buildGsonValue(
             }
         }
 
-        context.lineArray.push( indent + '}' );
+        context.lineArray.push( indentationText  + '}' );
     }
     else
     {
-        context.lineArray.push( indent + JSON.stringify( value ) );
+        context.lineArray.push( indentationText  + JSON.stringify( value ) );
     }
 }
 
