@@ -17,3 +17,7 @@
 ## 0.1.4
 
 * Fixed building.
+
+## 0.1.5
+
+* Fixed building.

@@ -23,33 +23,29 @@ String getIndentationText(
 // ~~
 
 String getEscapedLine(
-    String text
+    String line,
+    [
+        bool primedTextIsEscaped = true
+    ]
     )
 {
-    return
-        text
-            .replaceAll( '\\', '\\\\' )
-            .replaceAll( '\b', '\\b' )
-            .replaceAll( '\f', '\\f' )
-            .replaceAll( '\r', '' )
-            .replaceAll( '\t', '\\t' )
-            .replaceAllMapped(
-                RegExp( r'[\x00-\x1F-]' ),
-                ( Match match )
-                {
-                    var character = match.group( 0 )!;
-                    var codeUnit = character.codeUnitAt( 0 );
+    var escapedLine = jsonEncode( line ).substring( 1, jsonEncode( line ).length - 1 ).replaceAll( '‴', '\\u2034' );
 
-                    return '\\u${ codeUnit.toRadixString( 16 ).padLeft( 4, '0' ) }';
-                }
-                )
-            .replaceAll( '‴', '\\u2034' );
+    if ( primedTextIsEscaped )
+    {
+        return escapedLine.replaceAll( '‼', '\\u203C' ).replaceAll( '‗', '\\u2017' );
+    }
+    else
+    {
+        return escapedLine;
+    }
 }
 
 // ~~
 
 String getMultilineString(
     String value,
+    bool primedTextIsEscaped,
     String indentationText
     )
 {
@@ -96,7 +92,7 @@ String getMultilineString(
             lineSuffix = '';
         }
 
-        var multilineStringLine = linePrefix + getEscapedLine( lineContent ) + lineSuffix;
+        var multilineStringLine = linePrefix + getEscapedLine( lineContent, primedTextIsEscaped ) + lineSuffix;
 
         if ( lineIndex == lineCount - 1 )
         {
@@ -120,25 +116,29 @@ String getMultilineString(
 
 void buildGsonString(
     String value,
+    bool primedTextIsGenerated,
+    bool primedTextIsEscaped,
     Map<String, dynamic> context,
-    int level, [
+    int level,
+    [
         String lineSuffix = ''
     ]
     )
 {
     var indentationText  = getIndentationText( level * ( context[ 'levelSpaceCount' ] as int ) );
 
-    if ( value.startsWith( '‼' )
-         || value.contains( '\n' ) )
+    if ( primedTextIsGenerated
+         && ( value.startsWith( '‼' )
+              || value.contains( '\n' ) ) )
     {
         if ( value.startsWith( '‼' ) )
         {
-            var text = '‴' + getEscapedLine( value ) + '‴' + lineSuffix;
+            var text = '‴' + getEscapedLine( value, primedTextIsEscaped ) + '‴' + lineSuffix;
             ( context[ 'lineArray' ] as List<String> ).add( indentationText  + text );
         }
         else
         {
-            var multilineString = getMultilineString( value, indentationText  );
+            var multilineString = getMultilineString( value, primedTextIsEscaped, indentationText );
             var lineArray = multilineString.split( '\n' );
             var lastIndex = lineArray.length - 1;
 
@@ -160,7 +160,8 @@ void buildGsonString(
     }
     else
     {
-        var text = jsonEncode( value ) + lineSuffix;
+        var text = '"' + getEscapedLine( value, primedTextIsEscaped ) + '"' + lineSuffix;
+
         ( context[ 'lineArray' ] as List<String> ).add( indentationText  + text );
     }
 }
@@ -169,6 +170,8 @@ void buildGsonString(
 
 void buildGsonValue(
     dynamic value,
+    bool primedTextIsGenerated,
+    bool primedTextIsEscaped,
     Map<String, dynamic> context,
     int level
     )
@@ -177,7 +180,7 @@ void buildGsonValue(
 
     if ( value is String )
     {
-        buildGsonString( value, context, level, '' );
+        buildGsonString( value, primedTextIsGenerated, primedTextIsEscaped, context, level, '' );
     }
     else if ( value is List )
     {
@@ -194,6 +197,8 @@ void buildGsonValue(
 
             buildGsonValue(
                 element,
+                primedTextIsGenerated,
+                primedTextIsEscaped,
                 context,
                 level + 1
                 );
@@ -229,6 +234,8 @@ void buildGsonValue(
 
             buildGsonValue(
                 value[ key ],
+                primedTextIsGenerated,
+                primedTextIsEscaped,
                 context,
                 valueIndentLevel
                 );
@@ -252,9 +259,12 @@ void buildGsonValue(
 // ~~
 
 String buildGsonText(
-    dynamic value, {
-    int indentationSpaceCount = 4
-    }
+    dynamic value,
+    [
+        bool primedTextIsGenerated = true,
+        bool primedTextIsEscaped = true,
+        int indentationSpaceCount = 4
+    ]
     )
 {
     var context =
@@ -265,6 +275,8 @@ String buildGsonText(
 
     buildGsonValue(
         value,
+        primedTextIsGenerated,
+        primedTextIsEscaped,
         context,
         0
         );

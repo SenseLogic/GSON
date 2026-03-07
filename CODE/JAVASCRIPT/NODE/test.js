@@ -19,9 +19,13 @@ jsonText = readGsonFileText( '../../../DATA/test.gson', false );
 console.log( jsonText );
 writeFileText( 'OUT/unprocessed_test.json', jsonText );
 
+gsonText = buildGsonText( jsonValue, false );
+console.log( gsonText );
+writeFileText( 'OUT/unprocessed_test.gson', gsonText, 4 );
+
 jsonValue = readGsonFileValue( '../../../DATA/test.gson', false );
 console.log( JSON.stringify( jsonValue ) );
 
-gsonText = buildGsonText( jsonValue );
+gsonText = buildGsonText( jsonValue, true, false );
 console.log( gsonText );
 writeFileText( 'OUT/unprocessed_test.gson', gsonText, 4 );

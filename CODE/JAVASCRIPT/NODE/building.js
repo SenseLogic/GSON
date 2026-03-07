@@ -19,25 +19,27 @@ export function getIndentationText(
 // ~~
 
 function getEscapedLine(
-    text
+    line,
+    primedTextIsEscaped = true
     )
 {
-    return (
-        text
-            .replaceAll( '\\', '\\\\' )
-            .replaceAll( '\b', '\\b' )
-            .replaceAll( '\f', '\\f' )
-            .replaceAll( '\r', '' )
-            .replaceAll( '\t', '\\t' )
-            .replaceAll( /[-\u001F]/g, character => `\\u${ character.charCodeAt( 0 ).toString( 16 ).padStart( 4, '0' ) }` )
-            .replaceAll( '‴', '\\u2034' )
-        );
+    let escapedLine = JSON.stringify( line ).slice( 1, -1 ).replaceAll( '‴', '\\u2034' );
+
+    if ( primedTextIsEscaped )
+    {
+        return escapedLine.replaceAll( '‼', '\\u203C' ).replaceAll( '‗', '\\u2017' );
+    }
+    else
+    {
+        return escapedLine;
+    }
 }
 
 // ~~
 
 function getMultilineString(
     value,
+    primedTextIsEscaped = true,
     indentationText
     )
 {
@@ -84,7 +86,7 @@ function getMultilineString(
             lineSuffix = '';
         }
 
-        let multilineStringLine = linePrefix + getEscapedLine( lineContent ) + lineSuffix;
+        let multilineStringLine = linePrefix + getEscapedLine( lineContent, primedTextIsEscaped ) + lineSuffix;
 
         if ( lineIndex === lineCount - 1 )
         {
@@ -108,6 +110,8 @@ function getMultilineString(
 
 function buildGsonString(
     value,
+    primedTextIsGenerated = true,
+    primedTextIsEscaped = true,
     context,
     level,
     lineSuffix = ''
@@ -115,17 +119,18 @@ function buildGsonString(
 {
     let indentationText  = getIndentationText( level * context.levelSpaceCount );
 
-    if ( value.startsWith( '‼' )
-         || value.includes( '\n' ) )
+    if ( primedTextIsGenerated
+         && ( value.startsWith( '‼' )
+              || value.includes( '\n' ) ) )
     {
         if ( value.startsWith( '‼' ) )
         {
-            let text = '‴' + getEscapedLine( value ) + '‴' + lineSuffix;
+            let text = '‴' + getEscapedLine( value, primedTextIsEscaped ) + '‴' + lineSuffix;
             context.lineArray.push( indentationText  + text );
         }
         else
         {
-            let multilineString = getMultilineString( value, indentationText  );
+            let multilineString = getMultilineString( value, primedTextIsEscaped, indentationText );
             let lineArray = multilineString.split( '\n' );
             let lastIndex = lineArray.length - 1;
 
@@ -147,7 +152,8 @@ function buildGsonString(
     }
     else
     {
-        let text = JSON.stringify( value ) + lineSuffix;
+        let text = '"' + getEscapedLine( value, primedTextIsEscaped ) + '"' + lineSuffix;
+
         context.lineArray.push( indentationText  + text );
     }
 }
@@ -156,6 +162,8 @@ function buildGsonString(
 
 function buildGsonValue(
     value,
+    primedTextIsGenerated = true,
+    primedTextIsEscaped = true,
     context,
     level
     )
@@ -164,7 +172,7 @@ function buildGsonValue(
 
     if ( typeof value === 'string' )
     {
-        buildGsonString( value, context, level, '' );
+        buildGsonString( value, primedTextIsGenerated, primedTextIsEscaped, context, level, '' );
     }
     else if ( Array.isArray( value ) )
     {
@@ -181,6 +189,8 @@ function buildGsonValue(
 
             buildGsonValue(
                 element,
+                primedTextIsGenerated,
+                primedTextIsEscaped,
                 context,
                 level + 1
                 );
@@ -215,6 +225,8 @@ function buildGsonValue(
 
             buildGsonValue(
                 value[ key ],
+                primedTextIsGenerated,
+                primedTextIsEscaped,
                 context,
                 valueIndentLevel
                 );
@@ -238,9 +250,9 @@ function buildGsonValue(
 
 export function buildGsonText(
     value,
-    {
-        indentationSpaceCount = 4
-    } = {}
+    primedTextIsGenerated = true,
+    primedTextIsEscaped = true,
+    indentationSpaceCount = 4
     )
 {
     let context =
@@ -251,6 +263,8 @@ export function buildGsonText(
 
     buildGsonValue(
         value,
+        primedTextIsGenerated,
+        primedTextIsEscaped,
         context,
         0
         );

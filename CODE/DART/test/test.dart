@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'package:senselogic_gson/senselogic_gson.dart';
 
-// -- FUNCTIONS
+// -- STATEMENTS
 
 void main(
     )
@@ -17,16 +17,20 @@ void main(
 
     var gsonText = buildGsonText( jsonValue );
     print( gsonText );
-    writeFileText( 'OUT/processed_test.gson', gsonText );
+    writeFileText( 'OUT/processed_test.gson', gsonText, 4 );
 
     jsonText = readGsonFileText( '../../DATA/test.gson', false );
     print( jsonText );
     writeFileText( 'OUT/unprocessed_test.json', jsonText );
 
+    gsonText = buildGsonText( jsonValue, false );
+    print( gsonText );
+    writeFileText( 'OUT/unprocessed_test.gson', gsonText, 4 );
+
     jsonValue = readGsonFileValue( '../../DATA/test.gson', false );
     print( jsonEncode( jsonValue ) );
 
-    gsonText = buildGsonText( jsonValue );
+    gsonText = buildGsonText( jsonValue, true, false );
     print( gsonText );
-    writeFileText( 'OUT/unprocessed_test.gson', gsonText );
+    writeFileText( 'OUT/unprocessed_test.gson', gsonText, 4 );
 }
