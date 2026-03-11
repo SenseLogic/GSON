@@ -10,8 +10,7 @@ Granular Structured Object Notation.
 *   File inclusions
 *   UUID and TUID generation
 *   Customizable commands
-*   Ultra fast parsing
-*   Based on obscure characters
+*   Ultra fast parsing based on obscure Unicode characters
 
 ## Sample
 
@@ -52,7 +51,7 @@ Granular Structured Object Notation.
                 "age":
                     38
             }
-        ],
+        },
     "personByIdMap":
         {
             "mike":
@@ -76,7 +75,7 @@ Granular Structured Object Notation.
                     "age":
                         38
                 }
-        },
+        ],
     "escaped":
         "\u2034",
     "uuid":
@@ -88,10 +87,26 @@ Granular Structured Object Notation.
 }
 ```
 
+## Syntax
+
+Multiline strings are enclosed between `‴` characters, and use the `‗` character to represent a non-trimmable space:
+```
+‴first line
+second line
+third line ‗
+‗ fourth line
+fifth line‴
+```
+
+Command strings are also enclosed between `‴` characters, but start with a `‼` character:
+* `‴‼#id‴` generates an MD5-based UUID.
+* `‴‼%id‴` generates an MD5-based TUID.
+* `‴‼@path/to/file.gson‴` includes the contents of another GSON file.
+
 ## Limitations
 
-*   `‴` must be escaped in string literals.
-*   `‼` and `‗` can't be used in string literals.
+*   The `‴` character must be escaped in string literals.
+*   The `‼` and `‗` characters can't be used in multiline string literals.
 
 ## Version
 
