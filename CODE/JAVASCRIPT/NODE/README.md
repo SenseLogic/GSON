@@ -106,7 +106,7 @@ Command strings are also enclosed between `‴` characters, but start with a `�
 ## Limitations
 
 *   The `‴` character must be escaped in string literals.
-*   The `‼` and `‗` characters can't be used in multiline string literals.
+*   The `‼` and `‗` characters can not be used normally in multiline string literals.
 
 ## Version
 
