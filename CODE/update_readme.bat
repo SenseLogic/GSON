@@ -1,3 +1,0 @@
-copy ..\README.md DART\README.md
-copy ..\README.md JAVASCRIPT\NODE\README.md
-pause

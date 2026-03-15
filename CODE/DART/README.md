@@ -6,11 +6,12 @@ Granular Structured Object Notation.
 
 ## Features
 
-*   Multiline strings
-*   File inclusions
-*   UUID and TUID generation
-*   Customizable commands
-*   Ultra fast parsing based on obscure Unicode characters
+GSON is a superset of JSON with:
+*   Multiline strings.
+*   File inclusions.
+*   UUID and TUID generation.
+*   Customizable commands.
+*   Ultra fast parsing based on obscure Unicode characters.
 
 ## Sample
 
@@ -89,7 +90,9 @@ Granular Structured Object Notation.
 
 ## Syntax
 
-Multiline strings are enclosed between `‴` characters, and use the `‗` character to represent a non-trimmable space:
+Any JSON file is also a GSON file, since GSON is a superset of JSON.
+
+Multiline strings are enclosed by `‴` characters, and use the `‗` character to represent a non-trimmable space:
 ```
 ‴first line
 second line
@@ -98,15 +101,16 @@ third line ‗
 fifth line‴
 ```
 
-Command strings are also enclosed between `‴` characters, but start with a `‼` character:
+Command strings are also enclosed by `‴` characters, but start with a `‼` character:
 * `‴‼#id‴` generates an MD5-based UUID.
 * `‴‼%id‴` generates an MD5-based TUID.
 * `‴‼@path/to/file.gson‴` includes the contents of another GSON file.
 
 ## Limitations
 
-*   The `‴` character must be escaped in string literals.
-*   The `‼` and `‗` characters can not be used normally in multiline string literals.
+When used as literal text:
+* The `‴` character must be escaped in string literals.
+* The `‼` and `‗` characters must be escaped in multiline string literals.
 
 ## Version
 

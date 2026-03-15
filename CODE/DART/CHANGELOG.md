@@ -25,3 +25,7 @@
 ## 0.1.6
 
 * Updated readme.
+
+## 0.1.7
+
+* Updated readme.
