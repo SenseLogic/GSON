@@ -1,6 +1,6 @@
 // -- IMPORTS
 
-import 'dart:convert';
+import "dart:convert";
 
 // -- VARIABLES
 
@@ -29,11 +29,11 @@ String getEscapedLine(
     ]
     )
 {
-    var escapedLine = jsonEncode( line ).substring( 1, jsonEncode( line ).length - 1 ).replaceAll( '‴', '\\u2034' );
+    var escapedLine = jsonEncode( line ).substring( 1, jsonEncode( line ).length - 1 ).replaceAll( "‴", "\\u2034" );
 
     if ( primedTextIsEscaped )
     {
-        return escapedLine.replaceAll( '‼', '\\u203C' ).replaceAll( '‗', '\\u2017' );
+        return escapedLine.replaceAll( "‼", "\\u203C" ).replaceAll( "‗", "\\u2017" );
     }
     else
     {
@@ -49,9 +49,9 @@ String getMultilineString(
     String indentationText
     )
 {
-    var lineArray = value.replaceAll( '\r', '' ).split( '\n' );
+    var lineArray = value.replaceAll( "\r", "" ).split( "\n" );
     var lineCount = lineArray.length;
-    var multilineString = indentationText + '‴';
+    var multilineString = indentationText + "‴";
 
     for ( var lineIndex = 0;
           lineIndex < lineCount;
@@ -61,12 +61,12 @@ String getMultilineString(
         var startingSpaceCount = 0;
 
         while ( startingSpaceCount < line.length
-                && line[ startingSpaceCount ] == ' ' )
+                && line[ startingSpaceCount ] == " " )
         {
             ++startingSpaceCount;
         }
 
-        var trimmedLine = line.replaceFirst( RegExp( r'\s+$' ), '' );
+        var trimmedLine = line.replaceFirst( RegExp( r"\s+$" ), "" );
         var endingSpaceCount = line.length - trimmedLine.length;
         var lineContent = trimmedLine.substring( startingSpaceCount );
 
@@ -74,29 +74,29 @@ String getMultilineString(
 
         if ( startingSpaceCount > 0 )
         {
-            linePrefix = '‗' + getIndentationText( startingSpaceCount - 1 );
+            linePrefix = "‗" + getIndentationText( startingSpaceCount - 1 );
         }
         else
         {
-            linePrefix = '';
+            linePrefix = "";
         }
 
         String lineSuffix;
 
         if ( endingSpaceCount > 0 )
         {
-            lineSuffix = getIndentationText( endingSpaceCount - 1 ) + '‗';
+            lineSuffix = getIndentationText( endingSpaceCount - 1 ) + "‗";
         }
         else
         {
-            lineSuffix = '';
+            lineSuffix = "";
         }
 
         var multilineStringLine = linePrefix + getEscapedLine( lineContent, primedTextIsEscaped ) + lineSuffix;
 
         if ( lineIndex == lineCount - 1 )
         {
-            multilineStringLine = multilineStringLine + '‴';
+            multilineStringLine = multilineStringLine + "‴";
         }
 
         if ( lineIndex == 0 )
@@ -105,7 +105,7 @@ String getMultilineString(
         }
         else
         {
-            multilineString += '\n' + indentationText + multilineStringLine;
+            multilineString += "\n" + indentationText + multilineStringLine;
         }
     }
 
@@ -121,25 +121,25 @@ void buildGsonString(
     Map<String, dynamic> context,
     int level,
     [
-        String lineSuffix = ''
+        String lineSuffix = ""
     ]
     )
 {
-    var indentationText  = getIndentationText( level * ( context[ 'levelSpaceCount' ] as int ) );
+    var indentationText  = getIndentationText( level * ( context[ "levelSpaceCount" ] as int ) );
 
     if ( primedTextIsGenerated
-         && ( value.startsWith( '‼' )
-              || value.contains( '\n' ) ) )
+         && ( value.startsWith( "‼" )
+              || value.contains( "\n" ) ) )
     {
-        if ( value.startsWith( '‼' ) )
+        if ( value.startsWith( "‼" ) )
         {
-            var text = '‴' + getEscapedLine( value, primedTextIsEscaped ) + '‴' + lineSuffix;
-            ( context[ 'lineArray' ] as List<String> ).add( indentationText  + text );
+            var text = "‴" + getEscapedLine( value, primedTextIsEscaped ) + "‴" + lineSuffix;
+            ( context[ "lineArray" ] as List<String> ).add( indentationText  + text );
         }
         else
         {
             var multilineString = getMultilineString( value, primedTextIsEscaped, indentationText );
-            var lineArray = multilineString.split( '\n' );
+            var lineArray = multilineString.split( "\n" );
             var lastIndex = lineArray.length - 1;
 
             for ( var lineIndex = 0;
@@ -154,7 +154,7 @@ void buildGsonString(
                     line += lineSuffix;
                 }
 
-                ( context[ 'lineArray' ] as List<String> ).add( line );
+                ( context[ "lineArray" ] as List<String> ).add( line );
             }
         }
     }
@@ -162,7 +162,7 @@ void buildGsonString(
     {
         var text = '"' + getEscapedLine( value, primedTextIsEscaped ) + '"' + lineSuffix;
 
-        ( context[ 'lineArray' ] as List<String> ).add( indentationText  + text );
+        ( context[ "lineArray" ] as List<String> ).add( indentationText  + text );
     }
 }
 
@@ -176,15 +176,15 @@ void buildGsonValue(
     int level
     )
 {
-    var indentationText  = getIndentationText( level * ( context[ 'levelSpaceCount' ] as int ) );
+    var indentationText  = getIndentationText( level * ( context[ "levelSpaceCount" ] as int ) );
 
     if ( value is String )
     {
-        buildGsonString( value, primedTextIsGenerated, primedTextIsEscaped, context, level, '' );
+        buildGsonString( value, primedTextIsGenerated, primedTextIsEscaped, context, level, "" );
     }
     else if ( value is List )
     {
-        ( context[ 'lineArray' ] as List<String> ).add( indentationText  + '[' );
+        ( context[ "lineArray" ] as List<String> ).add( indentationText  + "[" );
 
         var elementCount = value.length;
 
@@ -193,7 +193,7 @@ void buildGsonValue(
               ++elementIndex )
         {
             var element = value[ elementIndex ];
-            var lineSuffix = ( elementIndex < elementCount - 1 ) ? ',' : '';
+            var lineSuffix = ( elementIndex < elementCount - 1 ) ? "," : "";
 
             buildGsonValue(
                 element,
@@ -205,18 +205,18 @@ void buildGsonValue(
 
             if ( lineSuffix.isNotEmpty )
             {
-                var lastIndex = ( context[ 'lineArray' ] as List<String> ).length - 1;
-                ( context[ 'lineArray' ] as List<String> )[ lastIndex ]
+                var lastIndex = ( context[ "lineArray" ] as List<String> ).length - 1;
+                ( context[ "lineArray" ] as List<String> )[ lastIndex ]
                     += lineSuffix;
             }
         }
 
-        ( context[ 'lineArray' ] as List<String> ).add( indentationText  + ']' );
+        ( context[ "lineArray" ] as List<String> ).add( indentationText  + "]" );
     }
     else if ( value != null
               && value is Map )
     {
-        ( context[ 'lineArray' ] as List<String> ).add( indentationText  + '{' );
+        ( context[ "lineArray" ] as List<String> ).add( indentationText  + "{" );
 
         var keyArray = value.keys.toList();
         var keyCount = keyArray.length;
@@ -226,11 +226,11 @@ void buildGsonValue(
               ++keyIndex )
         {
             var key = keyArray[ keyIndex ];
-            var keyIndentationText = getIndentationText( ( level + 1 ) * ( context[ 'levelSpaceCount' ] as int ) );
+            var keyIndentationText = getIndentationText( ( level + 1 ) * ( context[ "levelSpaceCount" ] as int ) );
             var valueIndentLevel = level + 2;
-            var lineSuffix = ( keyIndex < keyCount - 1 ) ? ',' : '';
+            var lineSuffix = ( keyIndex < keyCount - 1 ) ? "," : "";
 
-            ( context[ 'lineArray' ] as List<String> ).add( keyIndentationText + jsonEncode( key ) + ':' );
+            ( context[ "lineArray" ] as List<String> ).add( keyIndentationText + jsonEncode( key ) + ":" );
 
             buildGsonValue(
                 value[ key ],
@@ -242,17 +242,17 @@ void buildGsonValue(
 
             if ( lineSuffix.isNotEmpty )
             {
-                var lastIndex = ( context[ 'lineArray' ] as List<String> ).length - 1;
-                ( context[ 'lineArray' ] as List<String> )[ lastIndex ]
+                var lastIndex = ( context[ "lineArray" ] as List<String> ).length - 1;
+                ( context[ "lineArray" ] as List<String> )[ lastIndex ]
                     += lineSuffix;
             }
         }
 
-        ( context[ 'lineArray' ] as List<String> ).add( indentationText  + '}' );
+        ( context[ "lineArray" ] as List<String> ).add( indentationText  + "}" );
     }
     else
     {
-        ( context[ 'lineArray' ] as List<String> ).add( indentationText  + jsonEncode( value ) );
+        ( context[ "lineArray" ] as List<String> ).add( indentationText  + jsonEncode( value ) );
     }
 }
 
@@ -269,8 +269,8 @@ String buildGsonText(
 {
     var context =
         <String, dynamic>{
-            'levelSpaceCount': indentationSpaceCount,
-            'lineArray': <String>[]
+            "levelSpaceCount": indentationSpaceCount,
+            "lineArray": <String>[]
         };
 
     buildGsonValue(
@@ -281,5 +281,5 @@ String buildGsonText(
         0
         );
 
-    return ( context[ 'lineArray' ] as List<String> ).join( '\n' );
+    return ( context[ "lineArray" ] as List<String> ).join( "\n" );
 }

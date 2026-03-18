@@ -1,8 +1,7 @@
 // -- IMPORTS
 
-import 'dart:convert';
-import 'constant.dart';
-import 'building.dart';
+import "dart:convert";
+import "building.dart";
 
 // -- FUNCTIONS
 
@@ -14,13 +13,9 @@ String getDumpText(
     ]
     )
 {
-    if ( value == undefined )
+    if ( value == null )
     {
-        return 'undefined';
-    }
-    else if ( value == null )
-    {
-        return 'null';
+        return "null";
     }
     else if ( value is bool
               || value is num )
@@ -35,11 +30,11 @@ String getDumpText(
     {
         if ( value.length == 0 )
         {
-            return '[]';
+            return "[]";
         }
         else
         {
-            var text = '[\n';
+            var text = "[\n";
             var indent = getIndentationText( ( level + 1 ) * levelSpaceCount );
 
             for ( var item in value )
@@ -47,11 +42,11 @@ String getDumpText(
                 text
                     += indent
                        + getDumpText( item, level + 1, levelSpaceCount )
-                       + ',\n';
+                       + ",\n";
             }
 
-            text = text.substring( 0, text.length - 2 ) + '\n';
-            text += getIndentationText( level * levelSpaceCount ) + ']';
+            text = text.substring( 0, text.length - 2 ) + "\n";
+            text += getIndentationText( level * levelSpaceCount ) + "]";
 
             return text;
         }
@@ -60,7 +55,7 @@ String getDumpText(
               && value.isNotEmpty
               && value.keys.any( ( k ) => k is! String ) )
     {
-        var text = 'Map(' + value.length.toString() + ') {\n';
+        var text = "Map(" + value.length.toString() + ") {\n";
         var indent = getIndentationText( ( level + 1 ) * levelSpaceCount );
 
         for ( var entry in value.entries )
@@ -68,13 +63,13 @@ String getDumpText(
             text
                 += indent
                    + getDumpText( entry.key, level + 1, levelSpaceCount )
-                   + ' => '
+                   + " => "
                    + getDumpText( entry.value, level + 1, levelSpaceCount )
-                   + ',\n';
+                   + ",\n";
         }
 
-        text = text.substring( 0, text.length - 2 ) + '\n';
-        text += getIndentationText( level * levelSpaceCount ) + '}';
+        text = text.substring( 0, text.length - 2 ) + "\n";
+        text += getIndentationText( level * levelSpaceCount ) + "}";
 
         return text;
     }
@@ -82,11 +77,11 @@ String getDumpText(
     {
         if ( value.isEmpty )
         {
-            return '{}';
+            return "{}";
         }
         else
         {
-            var text = '{\n';
+            var text = "{\n";
             var indent = getIndentationText( ( level + 1 ) * levelSpaceCount );
 
             for ( var key in value.keys )
@@ -96,14 +91,14 @@ String getDumpText(
                     text
                         += indent
                            + jsonEncode( key )
-                           + ': '
+                           + ": "
                            + getDumpText( value[ key ], level + 1, levelSpaceCount )
-                           + ',\n';
+                           + ",\n";
                 }
             }
 
-            text = text.substring( 0, text.length - 2 ) + '\n';
-            text += getIndentationText( level * levelSpaceCount ) + '}';
+            text = text.substring( 0, text.length - 2 ) + "\n";
+            text += getIndentationText( level * levelSpaceCount ) + "}";
 
             return text;
         }

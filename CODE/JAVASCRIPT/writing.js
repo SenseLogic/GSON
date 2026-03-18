@@ -1,7 +1,7 @@
 // -- IMPORTS
 
-import { writeFileSync } from 'node:fs';
-import { buildGsonText } from './building.js';
+import { writeFileSync } from "node:fs";
+import { buildGsonText } from "./building.js";
 
 // -- FUNCTIONS
 
@@ -10,15 +10,14 @@ export function writeFileText(
     fileText
     )
 {
-    writeFileSync( filePath, fileText, 'utf8' );
+    writeFileSync( filePath, fileText, "utf8" );
 }
 
 // ~~
 
 export function writeGsonValue(
     filePath,
-    value,
-    writeFileTextFunction = writeFileText
+    value
     )
 {
     writeFileText( filePath, buildGsonText( value ) );

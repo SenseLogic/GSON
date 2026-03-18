@@ -1,0 +1,96 @@
+// -- CONSTANTS
+
+import 'building.php';
+
+// -- FUNCTIONS
+
+function getDumpText(
+    value,
+    level = 0,
+    levelSpaceCount = 2
+    )
+{
+    if ( value === null )
+    {
+        return 'null';
+    }
+    else if ( is_bool( value )
+              || is_int( value )
+              || is_float( value ) )
+    {
+        if ( is_float( value )
+             && is_nan( value ) )
+        {
+            return 'NaN';
+        }
+
+        return strval( value );
+    }
+    else if ( is_string( value ) )
+    {
+        return json_encode( value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+    }
+    else if ( is_array( value )
+              && array_is_list( value ) )
+    {
+        if ( count( value ) === 0 )
+        {
+            return '[]';
+        }
+        else
+        {
+            var text = "[\n";
+            var indent = getIndentationText( ( level + 1 ) * levelSpaceCount );
+
+            foreach ( var item; value )
+            {
+                text
+                    ..= indent
+                        .. getDumpText( item, level + 1, levelSpaceCount )
+                        .. ",\n";
+            }
+
+            text = substr( text, 0, strlen( text ) - 2 ) .. "\n";
+            text ..= getIndentationText( level * levelSpaceCount ) .. ']';
+
+            return text;
+        }
+    }
+    else if ( is_array( value )
+              || is_object( value ) )
+    {
+        if ( is_object( value ) )
+        {
+            value = get_object_vars( value );
+        }
+
+        if ( count( array_keys( value ) ) === 0 )
+        {
+            return '{}';
+        }
+        else
+        {
+            var text = "{\n";
+            var indent = getIndentationText( ( level + 1 ) * levelSpaceCount );
+
+            foreach ( var key => var entryValue; value )
+            {
+                text
+                    ..= indent
+                       .. json_encode( strval( key ), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES )
+                       .. ': '
+                       .. getDumpText( entryValue, level + 1, levelSpaceCount )
+                       .. ",\n";
+            }
+
+            text = substr( text, 0, strlen( text ) - 2 ) .. "\n";
+            text ..= getIndentationText( level * levelSpaceCount ) .. '}';
+
+            return text;
+        }
+    }
+    else
+    {
+        return strval( value );
+    }
+}

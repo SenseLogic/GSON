@@ -1,8 +1,8 @@
 // -- IMPORTS
 
-import 'dart:convert';
-import 'dart:io';
-import 'processing.dart';
+import "dart:convert";
+import "dart:io";
+import "processing.dart";
 
 // -- FUNCTIONS
 
@@ -27,7 +27,7 @@ String getUnprimedReadText(
 {
     if ( primedTextIsProcessed
          && readFileTextFunction != null
-         && primedText.startsWith( '‼@' ) )
+         && primedText.startsWith( "‼@" ) )
     {
         var filePath = folderPath + primedText.substring( 2 );
         var fileText = readFileTextFunction( filePath );
@@ -36,23 +36,23 @@ String getUnprimedReadText(
     }
     else if ( primedTextIsProcessed
               && processPrimedTextFunction != null
-              && primedText.startsWith( '‼' ) )
+              && primedText.startsWith( "‼" ) )
     {
         return '"' + processPrimedTextFunction( primedText ) + '"';
     }
     else
     {
-        var lineArray = primedText.split( '\n' );
+        var lineArray = primedText.split( "\n" );
 
         for ( var lineIndex = 0;
               lineIndex < lineArray.length;
               ++lineIndex )
         {
             lineArray[ lineIndex ]
-                = lineArray[ lineIndex ].trim().replaceAll( '‗', ' ' );
+                = lineArray[ lineIndex ].trim().replaceAll( "‗", " " );
         }
 
-        return '"' + lineArray.join( '\\n' ) + '"';
+        return '"' + lineArray.join( "\\n" ) + '"';
     }
 }
 
@@ -68,11 +68,11 @@ String getReadJsonText(
     ]
     )
 {
-    gsonText = gsonText.replaceAll( '\r', '' ).trim();
-    filePath = filePath.replaceAll( '\\', '/' );
+    gsonText = gsonText.replaceAll( "\r", "" ).trim();
+    filePath = filePath.replaceAll( "\\", "/" );
 
-    var folderPath = filePath.substring( 0, filePath.lastIndexOf( '/' ) + 1 );
-    var primedTextArray = gsonText.split( '‴' );
+    var folderPath = filePath.substring( 0, filePath.lastIndexOf( "/" ) + 1 );
+    var primedTextArray = gsonText.split( "‴" );
 
     for ( var primedTextIndex = 1;
           primedTextIndex < primedTextArray.length;
@@ -82,7 +82,7 @@ String getReadJsonText(
             = getUnprimedReadText( primedTextArray[ primedTextIndex ], folderPath, primedTextIsProcessed, readFileTextFunction, processPrimedTextFunction );
     }
 
-    return primedTextArray.join( '' );
+    return primedTextArray.join( "" );
 }
 
 // ~~

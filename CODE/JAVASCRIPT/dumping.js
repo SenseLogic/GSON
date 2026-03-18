@@ -1,5 +1,5 @@
 // -- IMPORTS
-import { getIndentationText } from './building.js';
+import { getIndentationText } from "./building.js";
 
 // -- FUNCTIONS
 
@@ -11,18 +11,18 @@ export function getDumpText(
 {
     if ( value === undefined )
     {
-        return 'undefined';
+        return "undefined";
     }
     else if ( value === null )
     {
-        return 'null';
+        return "null";
     }
-    else if ( typeof value === 'boolean'
-              || typeof value === 'number' )
+    else if ( typeof value === "boolean"
+              || typeof value === "number" )
     {
         return String( value );
     }
-    else if ( typeof value === 'string' )
+    else if ( typeof value === "string" )
     {
         return JSON.stringify( value );
     }
@@ -30,11 +30,11 @@ export function getDumpText(
     {
         if ( value.length === 0 )
         {
-            return '[]';
+            return "[]";
         }
         else
         {
-            let text = '[\n';
+            let text = "[\n";
             let indent = getIndentationText( ( level + 1 ) * levelSpaceCount );
 
             for ( let item of value )
@@ -42,11 +42,11 @@ export function getDumpText(
                 text
                     += indent
                        + getDumpText( item, level + 1, levelSpaceCount )
-                       + ',\n';
+                       + ",\n";
             }
 
-            text = text.substring( 0, text.length - 2 ) + '\n';
-            text += getIndentationText( level * levelSpaceCount ) + ']';
+            text = text.substring( 0, text.length - 2 ) + "\n";
+            text += getIndentationText( level * levelSpaceCount ) + "]";
 
             return text;
         }
@@ -55,11 +55,11 @@ export function getDumpText(
     {
         if ( value.size === 0 )
         {
-            return 'Map(0) {}';
+            return "Map(0) {}";
         }
         else
         {
-            let text = 'Map(' + value.size + ') {\n';
+            let text = "Map(" + value.size + ") {\n";
             let indent = getIndentationText( ( level + 1 ) * levelSpaceCount );
 
             for ( let [ entry_key, entry_value ] of value.entries() )
@@ -67,26 +67,26 @@ export function getDumpText(
                 text
                     += indent
                        + getDumpText( entry_key, level + 1, levelSpaceCount )
-                       + ' => '
+                       + " => "
                        + getDumpText( entry_value, level + 1, levelSpaceCount )
-                       + ',\n';
+                       + ",\n";
             }
 
-            text = text.substring( 0, text.length - 2 ) + '\n';
-            text += getIndentationText( level * levelSpaceCount ) + '}';
+            text = text.substring( 0, text.length - 2 ) + "\n";
+            text += getIndentationText( level * levelSpaceCount ) + "}";
 
             return text;
         }
     }
-    else if ( typeof value === 'object' )
+    else if ( typeof value === "object" )
     {
         if ( Object.keys( value ).length === 0 )
         {
-            return '{}';
+            return "{}";
         }
         else
         {
-            let text = '{\n';
+            let text = "{\n";
             let indent = getIndentationText( ( level + 1 ) * levelSpaceCount );
 
             for ( let key in value )
@@ -96,14 +96,14 @@ export function getDumpText(
                     text
                         += indent
                            + JSON.stringify( key )
-                           + ': '
+                           + ": "
                            + getDumpText( value[ key ], level + 1, levelSpaceCount )
-                           + ',\n';
+                           + ",\n";
                 }
             }
 
-            text = text.substring( 0, text.length - 2 ) + '\n';
-            text += getIndentationText( level * levelSpaceCount ) + '}';
+            text = text.substring( 0, text.length - 2 ) + "\n";
+            text += getIndentationText( level * levelSpaceCount ) + "}";
 
             return text;
         }

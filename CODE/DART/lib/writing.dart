@@ -1,16 +1,13 @@
 // -- IMPORTS
 
-import 'dart:io';
-import 'building.dart';
+import "dart:io";
+import "building.dart";
 
 // -- FUNCTIONS
 
 void writeFileText(
     String filePath,
-    String fileText,
-    [
-        int? _ignored
-    ]
+    String fileText
     )
 {
     File( filePath ).writeAsStringSync( fileText );
@@ -26,5 +23,5 @@ void writeGsonValue(
     ]
     )
 {
-    ( writeFileTextFunction ?? writeFileText )( filePath, buildGsonText( value ) );
+    writeFileTextFunction?.call( filePath, buildGsonText( value ) );
 }

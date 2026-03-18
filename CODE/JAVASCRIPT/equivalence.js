@@ -72,8 +72,8 @@ export function haveSameValue(
 
         return true;
     }
-    else if ( typeof firstValue === 'object'
-              && typeof secondValue === 'object' )
+    else if ( typeof firstValue === "object"
+              && typeof secondValue === "object" )
     {
         let firstValueKeyArray = Object.keys( firstValue );
         let secondValueKeyArray = Object.keys( secondValue );

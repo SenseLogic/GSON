@@ -1,6 +1,6 @@
 // -- VARIABLES
 
-let cachedIndentationText = '                                ';
+let cachedIndentationText = "                                ";
 
 // -- FUNCTIONS
 
@@ -10,7 +10,7 @@ export function getIndentationText(
 {
     while ( cachedIndentationText.length < indentationSpaceCount )
     {
-        cachedIndentationText += '                                ';
+        cachedIndentationText += "                                ";
     }
 
     return cachedIndentationText.slice( 0, indentationSpaceCount );
@@ -23,11 +23,11 @@ function getEscapedLine(
     primedTextIsEscaped = true
     )
 {
-    let escapedLine = JSON.stringify( line ).slice( 1, -1 ).replaceAll( '‴', '\\u2034' );
+    let escapedLine = JSON.stringify( line ).slice( 1, -1 ).replaceAll( "‴", "\\u2034" );
 
     if ( primedTextIsEscaped )
     {
-        return escapedLine.replaceAll( '‼', '\\u203C' ).replaceAll( '‗', '\\u2017' );
+        return escapedLine.replaceAll( "‼", "\\u203C" ).replaceAll( "‗", "\\u2017" );
     }
     else
     {
@@ -43,9 +43,9 @@ function getMultilineString(
     indentationText
     )
 {
-    let lineArray = value.replaceAll( '\r', '' ).split( '\n' );
+    let lineArray = value.replaceAll( "\r", "" ).split( "\n" );
     let lineCount = lineArray.length;
-    let multilineString = indentationText + '‴';
+    let multilineString = indentationText + "‴";
 
     for ( let lineIndex = 0;
           lineIndex < lineCount;
@@ -55,7 +55,7 @@ function getMultilineString(
         let startingSpaceCount = 0;
 
         while ( startingSpaceCount < line.length
-                && line[ startingSpaceCount ] === ' ' )
+                && line[ startingSpaceCount ] === " " )
         {
             ++startingSpaceCount;
         }
@@ -68,29 +68,29 @@ function getMultilineString(
 
         if ( startingSpaceCount > 0 )
         {
-            linePrefix = '‗' + getIndentationText( startingSpaceCount - 1 );
+            linePrefix = "‗" + getIndentationText( startingSpaceCount - 1 );
         }
         else
         {
-            linePrefix = '';
+            linePrefix = "";
         }
 
         let lineSuffix;
 
         if ( endingSpaceCount > 0 )
         {
-            lineSuffix = getIndentationText( endingSpaceCount - 1 ) + '‗';
+            lineSuffix = getIndentationText( endingSpaceCount - 1 ) + "‗";
         }
         else
         {
-            lineSuffix = '';
+            lineSuffix = "";
         }
 
         let multilineStringLine = linePrefix + getEscapedLine( lineContent, primedTextIsEscaped ) + lineSuffix;
 
         if ( lineIndex === lineCount - 1 )
         {
-            multilineStringLine = multilineStringLine + '‴';
+            multilineStringLine = multilineStringLine + "‴";
         }
 
         if ( lineIndex === 0 )
@@ -99,7 +99,7 @@ function getMultilineString(
         }
         else
         {
-            multilineString += '\n' + indentationText + multilineStringLine;
+            multilineString += "\n" + indentationText + multilineStringLine;
         }
     }
 
@@ -114,24 +114,24 @@ function buildGsonString(
     primedTextIsEscaped = true,
     context,
     level,
-    lineSuffix = ''
+    lineSuffix = ""
     )
 {
     let indentationText  = getIndentationText( level * context.levelSpaceCount );
 
     if ( primedTextIsGenerated
-         && ( value.startsWith( '‼' )
-              || value.includes( '\n' ) ) )
+         && ( value.startsWith( "‼" )
+              || value.includes( "\n" ) ) )
     {
-        if ( value.startsWith( '‼' ) )
+        if ( value.startsWith( "‼" ) )
         {
-            let text = '‴' + getEscapedLine( value, primedTextIsEscaped ) + '‴' + lineSuffix;
+            let text = "‴" + getEscapedLine( value, primedTextIsEscaped ) + "‴" + lineSuffix;
             context.lineArray.push( indentationText  + text );
         }
         else
         {
             let multilineString = getMultilineString( value, primedTextIsEscaped, indentationText );
-            let lineArray = multilineString.split( '\n' );
+            let lineArray = multilineString.split( "\n" );
             let lastIndex = lineArray.length - 1;
 
             for ( let lineIndex = 0;
@@ -170,13 +170,13 @@ function buildGsonValue(
 {
     let indentationText  = getIndentationText( level * context.levelSpaceCount );
 
-    if ( typeof value === 'string' )
+    if ( typeof value === "string" )
     {
-        buildGsonString( value, primedTextIsGenerated, primedTextIsEscaped, context, level, '' );
+        buildGsonString( value, primedTextIsGenerated, primedTextIsEscaped, context, level, "" );
     }
     else if ( Array.isArray( value ) )
     {
-        context.lineArray.push( indentationText  + '[' );
+        context.lineArray.push( indentationText  + "[" );
 
         let elementCount = value.length;
 
@@ -185,7 +185,7 @@ function buildGsonValue(
               ++elementIndex )
         {
             let element = value[ elementIndex ];
-            let lineSuffix = ( elementIndex < elementCount - 1 ) ? ',' : '';
+            let lineSuffix = ( elementIndex < elementCount - 1 ) ? "," : "";
 
             buildGsonValue(
                 element,
@@ -202,12 +202,12 @@ function buildGsonValue(
             }
         }
 
-        context.lineArray.push( indentationText  + ']' );
+        context.lineArray.push( indentationText  + "]" );
     }
     else if ( value !== null
-              && typeof value === 'object' )
+              && typeof value === "object" )
     {
-        context.lineArray.push( indentationText  + '{' );
+        context.lineArray.push( indentationText  + "{" );
 
         let keyArray = Object.keys( value );
         let keyCount = keyArray.length;
@@ -219,9 +219,9 @@ function buildGsonValue(
             let key = keyArray[ keyIndex ];
             let keyIndentationText = getIndentationText( ( level + 1 ) * context.levelSpaceCount );
             let valueIndentLevel = level + 2;
-            let lineSuffix = ( keyIndex < keyCount - 1 ) ? ',' : '';
+            let lineSuffix = ( keyIndex < keyCount - 1 ) ? "," : "";
 
-            context.lineArray.push( keyIndentationText + JSON.stringify( key ) + ':' );
+            context.lineArray.push( keyIndentationText + JSON.stringify( key ) + ":" );
 
             buildGsonValue(
                 value[ key ],
@@ -238,7 +238,7 @@ function buildGsonValue(
             }
         }
 
-        context.lineArray.push( indentationText  + '}' );
+        context.lineArray.push( indentationText  + "}" );
     }
     else
     {
@@ -269,5 +269,5 @@ export function buildGsonText(
         0
         );
 
-    return context.lineArray.join( '\n' );
+    return context.lineArray.join( "\n" );
 }

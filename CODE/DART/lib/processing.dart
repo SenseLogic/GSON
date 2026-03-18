@@ -1,7 +1,7 @@
 // -- IMPORTS
 
-import 'dart:convert';
-import 'package:crypto/crypto.dart';
+import "dart:convert";
+import "package:crypto/crypto.dart";
 
 // -- FUNCTIONS
 
@@ -21,9 +21,9 @@ String getTextUuid(
     String text
     )
 {
-    if ( text == '' )
+    if ( text == "" )
     {
-        return '';
+        return "";
     }
     else
     {
@@ -31,13 +31,13 @@ String getTextUuid(
 
         return (
             hash.substring( 0, 8 )
-            + '-'
+            + "-"
             + hash.substring( 8, 12 )
-            + '-'
+            + "-"
             + hash.substring( 12, 16 )
-            + '-'
+            + "-"
             + hash.substring( 16, 20 )
-            + '-'
+            + "-"
             + hash.substring( 20, 32 )
             );
     }
@@ -49,9 +49,9 @@ String getTextTuid(
     String text
     )
 {
-    if ( text == '' )
+    if ( text == "" )
     {
-        return '';
+        return "";
     }
     else
     {
@@ -59,9 +59,9 @@ String getTextTuid(
 
         return (
             tuid
-                .replaceAll( '+', '-' )
-                .replaceAll( '/', '_' )
-                .replaceAll( '=', '' )
+                .replaceAll( "+", "-" )
+                .replaceAll( "/", "_" )
+                .replaceAll( "=", "" )
             );
     }
 }
@@ -72,11 +72,11 @@ String processPrimedText(
     String primedText
     )
 {
-    if ( primedText.startsWith( '‼#' ) )
+    if ( primedText.startsWith( "‼#" ) )
     {
         return getTextUuid( primedText.substring( 2 ) );
     }
-    else if ( primedText.startsWith( '‼%' ) )
+    else if ( primedText.startsWith( "‼%" ) )
     {
         return getTextTuid( primedText.substring( 2 ) );
     }

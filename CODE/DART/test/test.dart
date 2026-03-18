@@ -1,36 +1,36 @@
 // -- IMPORTS
 
-import 'dart:convert';
-import 'package:senselogic_gson/senselogic_gson.dart';
+import "dart:convert";
+import "package:senselogic_gson/senselogic_gson.dart";
 
 // -- STATEMENTS
 
 void main(
     )
 {
-    var jsonText = readGsonFileText( '../../DATA/test.gson' );
+    var jsonText = readGsonFileText( "../../DATA/test.gson" );
     print( jsonText );
-    writeFileText( 'OUT/processed_test.json', jsonText );
+    writeFileText( "OUT/processed_test.json", jsonText );
 
-    dynamic jsonValue = readGsonFileValue( '../../DATA/test.gson' );
+    dynamic jsonValue = readGsonFileValue( "../../DATA/test.gson" );
     print( jsonEncode( jsonValue ) );
 
     var gsonText = buildGsonText( jsonValue );
     print( gsonText );
-    writeFileText( 'OUT/processed_test.gson', gsonText, 4 );
+    writeFileText( "OUT/processed_test.gson", gsonText );
 
-    jsonText = readGsonFileText( '../../DATA/test.gson', false );
+    jsonText = readGsonFileText( "../../DATA/test.gson", false );
     print( jsonText );
-    writeFileText( 'OUT/unprocessed_test.json', jsonText );
+    writeFileText( "OUT/unprocessed_test.json", jsonText );
 
     gsonText = buildGsonText( jsonValue, false );
     print( gsonText );
-    writeFileText( 'OUT/unprocessed_test.gson', gsonText, 4 );
+    writeFileText( "OUT/unprocessed_test.gson", gsonText );
 
-    jsonValue = readGsonFileValue( '../../DATA/test.gson', false );
+    jsonValue = readGsonFileValue( "../../DATA/test.gson", false );
     print( jsonEncode( jsonValue ) );
 
     gsonText = buildGsonText( jsonValue, true, false );
     print( gsonText );
-    writeFileText( 'OUT/unprocessed_test.gson', gsonText, 4 );
+    writeFileText( "OUT/unprocessed_test.gson", gsonText );
 }

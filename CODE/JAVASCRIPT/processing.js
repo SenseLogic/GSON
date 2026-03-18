@@ -1,6 +1,6 @@
 // -- IMPORTS
 
-import md5 from 'md5';
+import md5 from "md5";
 
 // -- FUNCTIONS
 
@@ -17,9 +17,9 @@ export function getTextUuid(
     text
     )
 {
-    if ( text === '' )
+    if ( text === "" )
     {
-        return '';
+        return "";
     }
     else
     {
@@ -27,13 +27,13 @@ export function getTextUuid(
 
         return (
             hash.slice( 0, 8 )
-            + '-'
+            + "-"
             + hash.slice( 8, 12 )
-            + '-'
+            + "-"
             + hash.slice( 12, 16 )
-            + '-'
+            + "-"
             + hash.slice( 16, 20 )
-            + '-'
+            + "-"
             + hash.slice( 20, 32 )
             );
     }
@@ -45,9 +45,9 @@ export function getTextTuid(
     text
     )
 {
-    if ( text === '' )
+    if ( text === "" )
     {
-        return '';
+        return "";
     }
     else
     {
@@ -62,13 +62,13 @@ export function getTextTuid(
             byteArray[ characterIndex >> 1 ] = String.fromCharCode( parseInt( hash.slice( characterIndex, characterIndex + 2 ), 16 ) );
         }
 
-        let tuid = btoa( byteArray.join( '' ) );
+        let tuid = btoa( byteArray.join( "" ) );
 
         return (
             tuid
-                .replaceAll( '+', '-' )
-                .replaceAll( '/', '_' )
-                .replaceAll( '=', '' )
+                .replaceAll( "+", "-" )
+                .replaceAll( "/", "_" )
+                .replaceAll( "=", "" )
             );
     }
 }
@@ -79,11 +79,11 @@ export function processPrimedText(
     primedText
     )
 {
-    if ( primedText.startsWith( '‼#' ) )
+    if ( primedText.startsWith( "‼#" ) )
     {
         return getTextUuid( primedText.slice( 2 ) );
     }
-    else if ( primedText.startsWith( '‼%' ) )
+    else if ( primedText.startsWith( "‼%" ) )
     {
         return getTextTuid( primedText.slice( 2 ) );
     }

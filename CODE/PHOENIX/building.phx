@@ -1,0 +1,284 @@
+// -- VARIABLES
+
+var cachedIndentationText = '                                ';
+
+// -- FUNCTIONS
+
+function getIndentationText(
+    indentationSpaceCount
+    )
+{
+    global cachedIndentationText;
+
+    while ( strlen( cachedIndentationText ) < indentationSpaceCount )
+    {
+        cachedIndentationText ..= '                                ';
+    }
+
+    return substr( cachedIndentationText, 0, indentationSpaceCount );
+}
+
+// ~~
+
+function getEscapedLine(
+    line,
+    primedTextIsEscaped = true
+    )
+{
+    var escapedLine = json_encode( line, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+    escapedLine = substr( escapedLine, 1, -1 );
+    escapedLine = str_replace( '‴', '\\u2034', escapedLine );
+
+    if ( primedTextIsEscaped )
+    {
+        return
+            str_replace(
+                [ '‼', '‗' ],
+                [ '\\u203C', '\\u2017' ],
+                escapedLine
+                );
+    }
+    else
+    {
+        return escapedLine;
+    }
+}
+
+// ~~
+
+function getMultilineString(
+    value,
+    primedTextIsEscaped = true,
+    indentationText = ''
+    )
+{
+    var lineArray = explode( "\n", str_replace( "\r", '', value ) );
+    var lineCount = count( lineArray );
+    var multilineString = indentationText .. '‴';
+
+    for ( var lineIndex = 0;
+          lineIndex < lineCount;
+          ++lineIndex )
+    {
+        var line = lineArray[ lineIndex ];
+        var startingSpaceCount = 0;
+
+        while ( startingSpaceCount < strlen( line )
+                && line[ startingSpaceCount ] === ' ' )
+        {
+            ++startingSpaceCount;
+        }
+
+        var trimmedLine = rtrim( line, " \t\n\r\0\x0B" );
+        var endingSpaceCount = strlen( line ) - strlen( trimmedLine );
+        var lineContent = substr( trimmedLine, startingSpaceCount );
+
+        if ( startingSpaceCount > 0 )
+        {
+            var linePrefix = '‗' .. getIndentationText( startingSpaceCount - 1 );
+        }
+        else
+        {
+            linePrefix = '';
+        }
+
+        if ( endingSpaceCount > 0 )
+        {
+            var lineSuffix = getIndentationText( endingSpaceCount - 1 ) .. '‗';
+        }
+        else
+        {
+            lineSuffix = '';
+        }
+
+        var multilineStringLine = linePrefix .. getEscapedLine( lineContent, primedTextIsEscaped ) .. lineSuffix;
+
+        if ( lineIndex === lineCount - 1 )
+        {
+            multilineStringLine ..= '‴';
+        }
+
+        if ( lineIndex === 0 )
+        {
+            multilineString ..= multilineStringLine;
+        }
+        else
+        {
+            multilineString ..= "\n" .. indentationText .. multilineStringLine;
+        }
+    }
+
+    return multilineString;
+}
+
+// ~~
+
+function buildGsonString(
+    value,
+    primedTextIsGenerated = true,
+    primedTextIsEscaped = true,
+    &context = null,
+    level = 0,
+    lineSuffix = ''
+    )
+{
+    var indentationText = getIndentationText( level * context[ 'levelSpaceCount' ] );
+
+    if ( primedTextIsGenerated
+         && ( str_starts_with( value, '‼' )
+              || str_contains( value, "\n" ) ) )
+    {
+        if ( str_starts_with( value, '‼' ) )
+        {
+            var text = '‴' .. getEscapedLine( value, primedTextIsEscaped ) .. '‴' .. lineSuffix;
+            context[ 'lineArray' ][] = indentationText .. text;
+        }
+        else
+        {
+            var multilineString = getMultilineString( value, primedTextIsEscaped, indentationText );
+            var lineArray = explode( "\n", multilineString );
+            var lastIndex = count( lineArray ) - 1;
+
+            for ( var lineIndex = 0;
+                  lineIndex < count( lineArray );
+                  ++lineIndex )
+            {
+                var line = lineArray[ lineIndex ];
+
+                if ( lineIndex === lastIndex
+                     && lineSuffix )
+                {
+                    line ..= lineSuffix;
+                }
+
+                context[ 'lineArray' ][] = line;
+            }
+        }
+    }
+    else
+    {
+        var text = '"' .. getEscapedLine( value, primedTextIsEscaped ) .. '"' .. lineSuffix;
+        context[ 'lineArray' ][] = indentationText .. text;
+    }
+}
+
+// ~~
+
+function buildGsonValue(
+    value,
+    primedTextIsGenerated = true,
+    primedTextIsEscaped = true,
+    &context = null,
+    level = 0
+    )
+{
+    var indentationText = getIndentationText( level * context[ 'levelSpaceCount' ] );
+
+    if ( is_string( value ) )
+    {
+        buildGsonString( value, primedTextIsGenerated, primedTextIsEscaped, context, level, '' );
+    }
+    else if ( is_array( value )
+              && array_is_list( value ) )
+    {
+        context[ 'lineArray' ][] = indentationText .. '[';
+
+        var elementCount = count( value );
+
+        for ( var elementIndex = 0;
+              elementIndex < elementCount;
+              ++elementIndex )
+        {
+            var element = value[ elementIndex ];
+            var lineSuffix = ( elementIndex < elementCount - 1 ) ? ',' : '';
+
+            buildGsonValue(
+                element,
+                primedTextIsGenerated,
+                primedTextIsEscaped,
+                context,
+                level + 1
+                );
+
+            if ( lineSuffix )
+            {
+                var lastIndex = count( context[ 'lineArray' ] ) - 1;
+                context[ 'lineArray' ][ lastIndex ] ..= lineSuffix;
+            }
+        }
+
+        context[ 'lineArray' ][] = indentationText .. ']';
+    }
+    else if ( value !== null
+              && ( is_array( value )
+                   || is_object( value ) ) )
+    {
+        if ( is_object( value ) )
+        {
+            value = get_object_vars( value );
+        }
+
+        context[ 'lineArray' ][] = indentationText .. '{';
+
+        var keyArray = array_keys( value );
+        var keyCount = count( keyArray );
+
+        for ( var keyIndex = 0;
+              keyIndex < keyCount;
+              ++keyIndex )
+        {
+            var key = keyArray[ keyIndex ];
+            var keyIndentationText = getIndentationText( ( level + 1 ) * context[ 'levelSpaceCount' ] );
+            var valueIndentLevel = level + 2;
+            var lineSuffix = ( keyIndex < keyCount - 1 ) ? ',' : '';
+
+            context[ 'lineArray' ][] = keyIndentationText .. json_encode( key, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) .. ':';
+
+            buildGsonValue(
+                value[ key ],
+                primedTextIsGenerated,
+                primedTextIsEscaped,
+                context,
+                valueIndentLevel
+                );
+
+            if ( lineSuffix )
+            {
+                var lastIndex = count( context[ 'lineArray' ] ) - 1;
+                context[ 'lineArray' ][ lastIndex ] ..= lineSuffix;
+            }
+        }
+
+        context[ 'lineArray' ][] = indentationText .. '}';
+    }
+    else
+    {
+        context[ 'lineArray' ][] = indentationText .. json_encode( value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+    }
+}
+
+// ~~
+
+function buildGsonText(
+    value,
+    primedTextIsGenerated = true,
+    primedTextIsEscaped = true,
+    indentationSpaceCount = 4
+    )
+{
+    var context =
+        [
+            'levelSpaceCount' => indentationSpaceCount,
+            'lineArray' => []
+        ];
+
+    buildGsonValue(
+        value,
+        primedTextIsGenerated,
+        primedTextIsEscaped,
+        context,
+        0
+        );
+
+    return implode( "\n", context[ 'lineArray' ] );
+}

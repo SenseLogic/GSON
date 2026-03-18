@@ -29,3 +29,7 @@
 ## 0.1.7
 
 * Updated readme.
+
+## 0.1.8
+
+* Updated dumping.

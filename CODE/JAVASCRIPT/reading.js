@@ -1,7 +1,7 @@
 // -- IMPORTS
 
-import { readFileSync } from 'node:fs';
-import { processPrimedText } from './processing.js';
+import { readFileSync } from "node:fs";
+import { processPrimedText } from "./processing.js";
 
 // -- FUNCTIONS
 
@@ -9,7 +9,7 @@ export function readFileText(
     filePath
     )
 {
-    return readFileSync( filePath, 'utf8' );
+    return readFileSync( filePath, "utf8" );
 }
 
 // ~~
@@ -24,7 +24,7 @@ function getUnprimedReadText(
 {
     if ( primedTextIsProcessed
          && readFileTextFunction !== null
-         && primedText.startsWith( '‼@' ) )
+         && primedText.startsWith( "‼@" ) )
     {
         let filePath = folderPath + primedText.slice( 2 );
         let fileText = readFileTextFunction( filePath );
@@ -33,23 +33,23 @@ function getUnprimedReadText(
     }
     else if ( primedTextIsProcessed
               && processPrimedTextFunction !== null
-              && primedText.startsWith( '‼' ) )
+              && primedText.startsWith( "‼" ) )
     {
         return '"' + processPrimedTextFunction( primedText ) + '"';
     }
     else
     {
-        let lineArray = primedText.split( '\n' );
+        let lineArray = primedText.split( "\n" );
 
         for ( let lineIndex = 0;
               lineIndex < lineArray.length;
               ++lineIndex )
         {
             lineArray[ lineIndex ]
-                = lineArray[ lineIndex ].trim().replaceAll( '‗', ' ' );
+                = lineArray[ lineIndex ].trim().replaceAll( "‗", " " );
         }
 
-        return '"' + lineArray.join( '\\n' ) + '"';
+        return '"' + lineArray.join( "\\n" ) + '"';
     }
 }
 
@@ -63,11 +63,11 @@ export function getReadJsonText(
     processPrimedTextFunction = processPrimedText
     )
 {
-    gsonText = gsonText.replaceAll( '\r', '' ).trim();
-    filePath = filePath.replaceAll( '\\', '/' );
+    gsonText = gsonText.replaceAll( "\r", "" ).trim();
+    filePath = filePath.replaceAll( "\\", "/" );
 
-    let folderPath = filePath.slice( 0, filePath.lastIndexOf( '/' ) + 1 );
-    let primedTextArray = gsonText.split( '‴' );
+    let folderPath = filePath.slice( 0, filePath.lastIndexOf( "/" ) + 1 );
+    let primedTextArray = gsonText.split( "‴" );
 
     for ( let primedTextIndex = 1;
           primedTextIndex < primedTextArray.length;
@@ -77,7 +77,7 @@ export function getReadJsonText(
             = getUnprimedReadText( primedTextArray[ primedTextIndex ], folderPath, primedTextIsProcessed, readFileTextFunction, processPrimedTextFunction );
     }
 
-    return primedTextArray.join( '' );
+    return primedTextArray.join( "" );
 }
 
 // ~~

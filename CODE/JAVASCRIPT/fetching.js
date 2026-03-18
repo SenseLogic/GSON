@@ -22,7 +22,7 @@ async function getUnprimedFetchedText(
 {
     if ( primedTextIsProcessed
          && fetchFileTextFunction !== null
-         && primedText.startsWith( '‼@' ) )
+         && primedText.startsWith( "‼@" ) )
     {
         let filePath = folderPath + primedText.slice( 2 );
         let fileText = fetchFileTextFunction( filePath );
@@ -31,23 +31,23 @@ async function getUnprimedFetchedText(
     }
     else if ( primedTextIsProcessed
               && processPrimedTextFunction !== null
-              && primedText.startsWith( '‼' ) )
+              && primedText.startsWith( "‼" ) )
     {
         return '"' + processPrimedTextFunction( primedText ) + '"';
     }
     else
     {
-        let lineArray = primedText.split( '\n' );
+        let lineArray = primedText.split( "\n" );
 
         for ( let lineIndex = 0;
               lineIndex < lineArray.length;
               ++lineIndex )
         {
             lineArray[ lineIndex ]
-                = lineArray[ lineIndex ].trim().replaceAll( '‗', ' ' );
+                = lineArray[ lineIndex ].trim().replaceAll( "‗", " " );
         }
 
-        return '"' + lineArray.join( '\\n' ) + '"';
+        return '"' + lineArray.join( "\\n" ) + '"';
     }
 }
 
@@ -61,11 +61,11 @@ export async function getFetchedJsonText(
     primedTextIsProcessed = true
     )
 {
-    gsonText = gsonText.replaceAll( '\r', '' ).trim();
-    filePath = filePath.replaceAll( '\\', '/' );
+    gsonText = gsonText.replaceAll( "\r", "" ).trim();
+    filePath = filePath.replaceAll( "\\", "/" );
 
-    let folderPath = filePath.slice( 0, filePath.lastIndexOf( '/' ) + 1 );
-    let primedTextArray = gsonText.split( '‴' );
+    let folderPath = filePath.slice( 0, filePath.lastIndexOf( "/" ) + 1 );
+    let primedTextArray = gsonText.split( "‴" );
 
     for ( let primedTextIndex = 1;
           primedTextIndex < primedTextArray.length;
@@ -75,7 +75,7 @@ export async function getFetchedJsonText(
             = await getUnprimedFetchedText( primedTextArray[ primedTextIndex ], folderPath, primedTextIsProcessed, fetchFileTextFunction, processPrimedTextFunction );
     }
 
-    return primedTextArray.join( '' );
+    return primedTextArray.join( "" );
 }
 
 // ~~

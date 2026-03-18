@@ -1,0 +1,106 @@
+<?php 
+// -- IMPORTS
+
+require_once __DIR__ . '/' . 'processing.php';
+
+// -- FUNCTIONS
+
+function readFileText(
+    $filePath
+    )
+{
+    return file_get_contents( $filePath );
+}
+
+// ~~
+
+function getUnprimedReadText(
+    $primedText,
+    $folderPath,
+    $primedTextIsProcessed = true,
+    $readFileTextFunction = 'readFileText',
+    $processPrimedTextFunction = 'processPrimedText'
+    )
+{
+    if ( $primedTextIsProcessed
+         && $readFileTextFunction !== null
+         && str_starts_with( $primedText, '‼@' ) )
+    {
+         $filePath = $folderPath . substr( $primedText, 4 );    // strlen( '‼@' ) = 4
+         $fileText = call_user_func( $readFileTextFunction, $filePath );
+
+        return getReadJsonText( $fileText, $filePath, $primedTextIsProcessed, $readFileTextFunction, $processPrimedTextFunction );
+    }
+    else if ( $primedTextIsProcessed
+              && $processPrimedTextFunction !== null
+              && str_starts_with( $primedText, '‼' ) )
+    {
+        return '"' . call_user_func( $processPrimedTextFunction, $primedText ) . '"';
+    }
+    else
+    {
+         $lineArray = explode( "\n", $primedText );
+
+        for (  $lineIndex = 0;
+              $lineIndex < count( $lineArray );
+              ++$lineIndex )
+        {
+            $lineArray[ $lineIndex ] = str_replace( '‗', ' ', trim( $lineArray[ $lineIndex ] ) );
+        }
+
+        return '"' . implode( '\\n', $lineArray ) . '"';
+    }
+}
+
+// ~~
+
+function getReadJsonText(
+    $gsonText,
+    $filePath,
+    $primedTextIsProcessed = true,
+    $readFileTextFunction = 'readFileText',
+    $processPrimedTextFunction = 'processPrimedText'
+    )
+{
+    $gsonText = trim( str_replace( "\r", '', $gsonText ) );
+    $filePath = str_replace( '\\', '/', $filePath );
+
+     $folderPath = substr( $filePath, 0, strrpos( $filePath, '/' ) + 1 );
+     $primedTextArray = explode( '‴', $gsonText );
+
+    for (  $primedTextIndex = 1;
+          $primedTextIndex < count( $primedTextArray );
+          $primedTextIndex += 2 )
+    {
+        $primedTextArray[ $primedTextIndex ]
+            = getUnprimedReadText( $primedTextArray[ $primedTextIndex ], $folderPath, $primedTextIsProcessed, $readFileTextFunction, $processPrimedTextFunction );
+    }
+
+    return implode( '', $primedTextArray );
+}
+
+// ~~
+
+function readGsonFileText(
+    $filePath,
+    $primedTextIsProcessed = true,
+    $readFileTextFunction = 'readFileText',
+    $processPrimedTextFunction = 'processPrimedText'
+    )
+{
+     $gsonText = call_user_func( $readFileTextFunction, $filePath );
+
+    return getReadJsonText( $gsonText, $filePath, $primedTextIsProcessed, $readFileTextFunction, $processPrimedTextFunction );
+}
+
+// ~~
+
+function readGsonFileValue(
+    $filePath,
+    $primedTextIsProcessed = true,
+    $readFileTextFunction = 'readFileText',
+    $processPrimedTextFunction = 'processPrimedText'
+    )
+{
+    return json_decode( readGsonFileText( $filePath, $primedTextIsProcessed, $readFileTextFunction, $processPrimedTextFunction ), true );
+}
