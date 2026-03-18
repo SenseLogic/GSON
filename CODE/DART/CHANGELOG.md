@@ -33,3 +33,7 @@
 ## 0.1.8
 
 * Updated dumping.
+
+## 0.1.9
+
+* Updated readme.

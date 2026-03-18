@@ -7,11 +7,11 @@ Granular Structured Object Notation.
 ## Features
 
 GSON is a superset of JSON with:
-*   Multiline strings.
-*   File inclusions.
-*   UUID and TUID generation.
-*   Customizable commands.
-*   Ultra fast parsing based on obscure Unicode characters.
+*   Fast parsing through Unicode markers.
+*   A simple syntax for:
+    *   Multiline strings
+    *   File inclusion
+    *   UUID and TUID generation
 
 ## Sample
 
