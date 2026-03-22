@@ -43,7 +43,7 @@ function getMultilineString(
     indentationText
     )
 {
-    let lineArray = value.replaceAll( "\r", "" ).split( "\n" );
+    let lineArray = value.replaceAll( "\r\n", "\n" ).split( "\n" );
     let lineCount = lineArray.length;
     let multilineString = indentationText + "‴";
 

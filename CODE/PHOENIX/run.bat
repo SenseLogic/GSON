@@ -1,2 +1,2 @@
-%TOOL%\PHOENIX\phoenix ./ ./
-php test.php
+%TOOL%\PHOENIX\phoenix --compress ./ ../PHP/
+php ../PHP/test.php

@@ -37,3 +37,7 @@
 ## 0.1.9
 
 * Updated readme.
+
+## 0.1.10
+
+* Removed dumping.

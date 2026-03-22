@@ -52,7 +52,7 @@ function getMultilineString(
     indentationText = ''
     )
 {
-    var lineArray = explode( "\n", str_replace( "\r", '', value ) );
+    var lineArray = explode( "\n", str_replace( "\r\n", "\n", value ) );
     var lineCount = count( lineArray );
     var multilineString = indentationText .. '‴';
 

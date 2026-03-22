@@ -106,6 +106,16 @@ Command strings are also enclosed by `‴` characters, but start with a `‼` ch
 * `‴‼%id‴` generates an MD5-based TUID.
 * `‴‼@path/to/file.gson‴` includes the contents of another GSON file.
 
+## Use Cases
+
+GSON is designed to extend JSON in scenarios where additional flexibility and expressiveness are beneficial.
+
+It is particularly well suited for configuration files where readability matters, especially when working with multiline text.
+
+It also helps organize large configurations or datasets by allowing them to be split into multiple files and included where needed.
+
+Additionally, GSON supports generating consistent identifiers such as UUIDs and TUIDs directly within the data.
+
 ## Limitations
 
 When used as literal text:

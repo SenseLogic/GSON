@@ -1,7 +1,6 @@
 // -- IMPORTS
 
 import { buildGsonText } from "./building.js";
-import { getDumpText } from "./dumping.js";
 import { haveSameValue } from "./equivalence.js";
 import { fetchFileText, getFetchedJsonText, fetchGsonFileText, fetchGsonFileValue } from "./fetching.js";
 import { readFileText, getReadJsonText, readGsonFileText, readGsonFileValue } from "./reading.js";
@@ -14,7 +13,6 @@ export {
     fetchFileText,
     fetchGsonFileText,
     fetchGsonFileValue,
-    getDumpText,
     getFetchedJsonText,
     buildGsonText,
     getReadJsonText,

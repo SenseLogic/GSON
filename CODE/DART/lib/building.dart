@@ -49,7 +49,7 @@ String getMultilineString(
     String indentationText
     )
 {
-    var lineArray = value.replaceAll( "\r", "" ).split( "\n" );
+    var lineArray = value.replaceAll( "\r\n", "\n" ).split( "\n" );
     var lineCount = lineArray.length;
     var multilineString = indentationText + "‴";
 
