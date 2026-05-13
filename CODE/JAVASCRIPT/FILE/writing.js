@@ -1,7 +1,7 @@
 // -- IMPORTS
 
 import { writeFileSync } from "node:fs";
-import { buildGsonText } from "./building.js";
+import { buildGsonText } from "senselogic-gson";
 
 // -- FUNCTIONS
 

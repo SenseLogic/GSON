@@ -1,3 +1,7 @@
+// -- IMPORTS
+
+import { processPrimedText } from "./processing.js";
+
 // -- FUNCTIONS
 
 export async function fetchFileText(
@@ -25,9 +29,9 @@ async function getUnprimedFetchedText(
          && primedText.startsWith( "‼@" ) )
     {
         let filePath = folderPath + primedText.slice( 2 );
-        let fileText = fetchFileTextFunction( filePath );
+        let fileText = await fetchFileTextFunction( filePath );
 
-        return await getFetchedJsonText( fileText, filePath, primedTextIsProcessed, fetchFileTextFunction, processPrimedTextFunction );
+        return await getFetchedJsonText( fileText, filePath, fetchFileTextFunction, processPrimedTextFunction, primedTextIsProcessed );
     }
     else if ( primedTextIsProcessed
               && processPrimedTextFunction !== null
@@ -89,7 +93,7 @@ export async function fetchGsonFileText(
 {
     let gsonText = await fetchFileTextFunction( filePath );
 
-    return await getFetchedJsonText( gsonText, filePath, primedTextIsProcessed, fetchFileTextFunction, processPrimedTextFunction );
+    return await getFetchedJsonText( gsonText, filePath, fetchFileTextFunction, processPrimedTextFunction, primedTextIsProcessed );
 }
 
 // ~~

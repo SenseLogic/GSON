@@ -1,7 +1,7 @@
 // -- IMPORTS
 
 import { readFileSync } from "node:fs";
-import { processPrimedText } from "./processing.js";
+import { processPrimedText } from "senselogic-gson";
 
 // -- FUNCTIONS
 
