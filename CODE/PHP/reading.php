@@ -35,7 +35,7 @@ function getUnprimedReadText(
               && $processPrimedTextFunction !== null
               && str_starts_with( $primedText, '‼' ) )
     {
-        return '"' . call_user_func( $processPrimedTextFunction, $primedText ) . '"';
+        return '"' . str_replace( '"', '\"', call_user_func( $processPrimedTextFunction, $primedText ) ) . '"';
     }
     else
     {
@@ -45,10 +45,10 @@ function getUnprimedReadText(
               $lineIndex < count( $lineArray );
               ++$lineIndex )
         {
-            $lineArray[ $lineIndex ] = str_replace( '‗', ' ', trim( $lineArray[ $lineIndex ] ) );
+            $lineArray[ $lineIndex ] = trim( $lineArray[ $lineIndex ] );
         }
 
-        return '"' . implode( '\\n', $lineArray ) . '"';
+        return '"' . str_replace( '"', '\"', str_replace( '‗', ' ', implode( '\\n', $lineArray ) ) ) . '"';
     }
 }
 

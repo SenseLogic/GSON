@@ -1,0 +1,1 @@
+deno publish --dry-run

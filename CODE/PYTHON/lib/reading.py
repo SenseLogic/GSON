@@ -39,7 +39,7 @@ def get_unprimed_read_text(
            and process_primed_text_function is not None
            and primed_text.startswith( "‼" ) ):
 
-        return '"' + process_primed_text_function( primed_text ) + '"';
+        return '"' + process_primed_text_function( primed_text ).replace( "\"", "\\\"" ) + '"';
 
     else:
 
@@ -49,10 +49,10 @@ def get_unprimed_read_text(
         while ( line_index < len( line_array ) ):
 
             line_array[ line_index ] \
-                = line_array[ line_index ].strip().replace( "‗", " " );
+                = line_array[ line_index ].strip();
             line_index += 1;
 
-        return '"' + "\\n".join( line_array ) + '"';
+        return '"' + "\\n".join( line_array ).replace( "‗", " " ).replace( "\"", "\\\"" ) + '"';
 
 
 # ~~

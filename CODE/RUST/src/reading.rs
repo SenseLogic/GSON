@@ -34,7 +34,7 @@ pub fn get_unprimed_read_text(
               && process_primed_text_function.is_some()
               && primed_text.starts_with( "‼" )
     {
-        return format!( "\"{}\"", process_primed_text_function.unwrap()( primed_text ) );
+        return format!( "\"{}\"", process_primed_text_function.unwrap()( primed_text ).replace( "\"", "\\\"" ) );
     }
     else
     {
@@ -43,10 +43,10 @@ pub fn get_unprimed_read_text(
         for line_index in 0..line_array.len()
         {
             line_array[ line_index ]
-                = line_array[ line_index ].trim().replace( "‗", " " );
+                = line_array[ line_index ].trim();
         }
 
-        return format!( "\"{}\"", line_array.join( "\\n" ) );
+        return format!( "\"{}\"", line_array.join( "\\n" ).replace( "‗", " " ).replace( "\"", "\\\"" ) );
     }
 }
 

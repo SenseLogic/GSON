@@ -1,0 +1,12 @@
+{
+    "name": "@senselogic/senselogic-gson",
+    "version": "0.3.0",
+    "license": "LGPL-3.0-only",
+    "exports": "./index.ts",
+    "imports": {
+        "md5": "npm:md5@^2.3.0"
+    },
+    "tasks": {
+        "test": "deno run --allow-read --allow-write test.ts"
+    }
+}

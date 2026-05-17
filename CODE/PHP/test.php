@@ -19,7 +19,7 @@ echo json_encode( $jsonValue, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) 
 
 $gsonText = buildGsonText( $jsonValue );
 echo $gsonText . "\n";
-writeFileText( __DIR__ . '/OUT/processed_test.gson', $gsonText, 4 );
+writeFileText( __DIR__ . '/OUT/processed_test.gson', $gsonText );
 
 $jsonText = readGsonFileText( __DIR__ . '/../../DATA/test.gson', false );
 echo $jsonText . "\n";
@@ -27,11 +27,11 @@ writeFileText( __DIR__ . '/OUT/unprocessed_test.json', $jsonText );
 
 $gsonText = buildGsonText( $jsonValue, false );
 echo $gsonText . "\n";
-writeFileText( __DIR__ . '/OUT/unprocessed_test.gson', $gsonText, 4 );
+writeFileText( __DIR__ . '/OUT/unprocessed_test.gson', $gsonText );
 
 $jsonValue = readGsonFileValue( __DIR__ . '/../../DATA/test.gson', false );
 echo json_encode( $jsonValue, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . "\n";
 
 $gsonText = buildGsonText( $jsonValue, true, false );
 echo $gsonText . "\n";
-writeFileText( __DIR__ . '/OUT/unprocessed_test.gson', $gsonText, 4 );
+writeFileText( __DIR__ . '/OUT/unprocessed_test.gson', $gsonText );

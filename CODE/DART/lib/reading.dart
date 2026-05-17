@@ -38,7 +38,7 @@ String getUnprimedReadText(
               && processPrimedTextFunction != null
               && primedText.startsWith( "‼" ) )
     {
-        return '"' + processPrimedTextFunction( primedText ) + '"';
+        return '"' + processPrimedTextFunction( primedText ).replaceAll( "\"", "\\\"" ) + '"';
     }
     else
     {
@@ -49,10 +49,10 @@ String getUnprimedReadText(
               ++lineIndex )
         {
             lineArray[ lineIndex ]
-                = lineArray[ lineIndex ].trim().replaceAll( "‗", " " );
+                = lineArray[ lineIndex ].trim();
         }
 
-        return '"' + lineArray.join( "\\n" ) + '"';
+        return '"' + lineArray.join( "\\n" ).replaceAll( "‗", " " ).replaceAll( "\"", "\\\"" ) + '"';
     }
 }
 

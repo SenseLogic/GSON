@@ -51,7 +51,7 @@ Future<String> getUnprimedFetchedText(
               && processPrimedTextFunction != null
               && primedText.startsWith( "‼" ) )
     {
-        return '"' + processPrimedTextFunction( primedText ) + '"';
+        return '"' + processPrimedTextFunction( primedText ).replaceAll( "\"", "\\\"" ) + '"';
     }
     else
     {
@@ -62,10 +62,10 @@ Future<String> getUnprimedFetchedText(
               ++lineIndex )
         {
             lineArray[ lineIndex ]
-                = lineArray[ lineIndex ].trim().replaceAll( "‗", " " );
+                = lineArray[ lineIndex ].trim();
         }
 
-        return '"' + lineArray.join( "\\n" ) + '"';
+        return '"' + lineArray.join( "\\n" ).replaceAll( "‗", " " ).replaceAll( "\"", "\\\"" ) + '"';
     }
 }
 

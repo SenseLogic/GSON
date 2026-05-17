@@ -1,0 +1,40 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@senselogic/senselogic-gson@0.3": "0.3.0",
+    "npm:md5@^2.3.0": "2.3.0"
+  },
+  "jsr": {
+    "@senselogic/senselogic-gson@0.3.0": {
+      "integrity": "1c67a0a3ca7433217f4d9c9f86fa75124dc12f2ceb17d0cab2a484c0d4dbe582",
+      "dependencies": [
+        "npm:md5"
+      ]
+    }
+  },
+  "npm": {
+    "charenc@0.0.2": {
+      "integrity": "sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA=="
+    },
+    "crypt@0.0.2": {
+      "integrity": "sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow=="
+    },
+    "is-buffer@1.1.6": {
+      "integrity": "sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w=="
+    },
+    "md5@2.3.0": {
+      "integrity": "sha512-T1GITYmFaKuO91vxyoQMFETst+O71VUPEU3ze5GNzDm0OWdP8v1ziTaAEPUr/3kLsY3Sftgz242A1SetQiDL7g==",
+      "dependencies": [
+        "charenc",
+        "crypt",
+        "is-buffer"
+      ]
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@senselogic/senselogic-gson@0.3",
+      "npm:md5@^2.3.0"
+    ]
+  }
+}

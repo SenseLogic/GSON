@@ -35,7 +35,7 @@ function getUnprimedReadText(
               && processPrimedTextFunction !== null
               && primedText.startsWith( "‼" ) )
     {
-        return '"' + processPrimedTextFunction( primedText ) + '"';
+        return '"' + processPrimedTextFunction( primedText ).replaceAll( "\"", "\\\"" ) + '"';
     }
     else
     {
@@ -46,10 +46,10 @@ function getUnprimedReadText(
               ++lineIndex )
         {
             lineArray[ lineIndex ]
-                = lineArray[ lineIndex ].trim().replaceAll( "‗", " " );
+                = lineArray[ lineIndex ].trim();
         }
 
-        return '"' + lineArray.join( "\\n" ) + '"';
+        return '"' + lineArray.join( "\\n" ).replaceAll( "‗", " " ).replaceAll( "\"", "\\\"" ) + '"';
     }
 }
 

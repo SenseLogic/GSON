@@ -41,3 +41,7 @@
 ## 0.1.10
 
 * Removed dumping.
+
+## 0.1.11
+
+* Fixed escaping.
