@@ -40,7 +40,7 @@ async function getUnprimedFetchedText(
               && processPrimedTextFunction !== null
               && primedText.startsWith( "‼" ) )
     {
-        return '"' + processPrimedTextFunction( primedText ).replaceAll( "\"", "\\\"" ) + '"';
+        return processPrimedTextFunction( primedText );
     }
     else
     {

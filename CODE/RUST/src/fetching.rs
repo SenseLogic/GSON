@@ -37,7 +37,7 @@ pub fn get_unprimed_fetched_text(
               && process_primed_text_function.is_some()
               && primed_text.starts_with( "‼" )
     {
-        return format!( "\"{}\"", process_primed_text_function.unwrap()( primed_text ).replace( "\"", "\\\"" ) );
+        return process_primed_text_function.unwrap()( primed_text );
     }
     else
     {

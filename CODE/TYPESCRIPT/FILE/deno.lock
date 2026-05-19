@@ -1,16 +1,7 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@senselogic/senselogic-gson@0.3": "0.3.0",
     "npm:md5@^2.3.0": "2.3.0"
-  },
-  "jsr": {
-    "@senselogic/senselogic-gson@0.3.0": {
-      "integrity": "1c67a0a3ca7433217f4d9c9f86fa75124dc12f2ceb17d0cab2a484c0d4dbe582",
-      "dependencies": [
-        "npm:md5"
-      ]
-    }
   },
   "npm": {
     "charenc@0.0.2": {
@@ -33,7 +24,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@senselogic/senselogic-gson@0.3",
+      "jsr:@senselogic/senselogic-gson@0.4",
       "npm:md5@^2.3.0"
     ]
   }

@@ -84,13 +84,13 @@ def process_primed_text(
 
     if ( primed_text.startswith( "‼#" ) ):
 
-        return get_text_uuid( primed_text[ 2: ] );
+        return '"' + get_text_uuid( primed_text[ 2: ] ) + '"';
 
     elif ( primed_text.startswith( "‼%" ) ):
 
-        return get_text_tuid( primed_text[ 2: ] );
+        return '"' + get_text_tuid( primed_text[ 2: ] ) + '"';
 
     else:
 
-        return primed_text;
+        return '"' + primed_text.replace( "\"", "\\\"" ) + '"';
 

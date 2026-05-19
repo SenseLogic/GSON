@@ -45,3 +45,7 @@
 ## 0.1.11
 
 * Fixed escaping.
+
+## 0.4.0
+
+* Fixed escaping.

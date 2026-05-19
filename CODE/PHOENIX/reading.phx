@@ -34,7 +34,7 @@ function getUnprimedReadText(
               && processPrimedTextFunction !== null
               && str_starts_with( primedText, '‼' ) )
     {
-        return '"' .. str_replace( '"', '\"', call_user_func( processPrimedTextFunction, primedText ) ) .. '"';
+        return call_user_func( processPrimedTextFunction, primedText );
     }
     else
     {

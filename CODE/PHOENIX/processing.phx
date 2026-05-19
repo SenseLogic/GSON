@@ -68,14 +68,14 @@ function processPrimedText(
 {
     if ( str_starts_with( primedText, '‼#' ) )
     {
-        return getTextUuid( substr( primedText, 4 ) );    // strlen( '‼#' ) = 4
+        return '"' .. getTextUuid( substr( primedText, 4 ) ) .. '"';    // strlen( '‼#' ) = 4
     }
     else if ( str_starts_with( primedText, '‼%' ) )
     {
-        return getTextTuid( substr( primedText, 4 ) );    // strlen( '‼%' ) = 4
+        return '"' .. getTextTuid( substr( primedText, 4 ) ) .. '"';    // strlen( '‼%' ) = 4
     }
     else
     {
-        return primedText;
+        return '"' .. str_replace( '"', '\"', primedText ) .. '"';
     }
 }

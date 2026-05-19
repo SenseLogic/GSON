@@ -39,7 +39,7 @@ def get_unprimed_read_text(
            and process_primed_text_function is not None
            and primed_text.startswith( "‼" ) ):
 
-        return '"' + process_primed_text_function( primed_text ).replace( "\"", "\\\"" ) + '"';
+        return process_primed_text_function( primed_text );
 
     else:
 

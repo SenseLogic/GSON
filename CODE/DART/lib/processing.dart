@@ -74,14 +74,14 @@ String processPrimedText(
 {
     if ( primedText.startsWith( "‼#" ) )
     {
-        return getTextUuid( primedText.substring( 2 ) );
+        return '"' + getTextUuid( primedText.substring( 2 ) ) + '"';
     }
     else if ( primedText.startsWith( "‼%" ) )
     {
-        return getTextTuid( primedText.substring( 2 ) );
+        return '"' + getTextTuid( primedText.substring( 2 ) ) + '"';
     }
     else
     {
-        return primedText;
+        return '"' + primedText.replaceAll( "\"", "\\\"" ) + '"';
     }
 }

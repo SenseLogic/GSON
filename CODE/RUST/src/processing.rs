@@ -78,14 +78,14 @@ pub fn process_primed_text(
 {
     if let Some( rest ) = primed_text.strip_prefix( "‼#" )
     {
-        return get_text_uuid( rest );
+        return format!( "\"{}\"", get_text_uuid( rest ) );
     }
     else if let Some( rest ) = primed_text.strip_prefix( "‼%" )
     {
-        return get_text_tuid( rest );
+        return format!( "\"{}\"", get_text_tuid( rest ) );
     }
     else
     {
-        return primed_text.to_string();
+        return format!( "\"{}\"", primed_text.replace( "\"", "\\\"" ) );
     }
 }

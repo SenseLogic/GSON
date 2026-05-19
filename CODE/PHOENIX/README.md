@@ -124,7 +124,7 @@ When used as literal text:
 
 ## Version
 
-0.1
+0.4
 
 ## Author
 
