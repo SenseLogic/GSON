@@ -46,7 +46,7 @@ pub fn get_unprimed_fetched_text(
         for line_index in 0..line_array.len()
         {
             line_array[ line_index ]
-                = line_array[ line_index ].trim();
+                = line_array[ line_index ].trim().to_string();
         }
 
         return format!( "\"{}\"", line_array.join( "\\n" ).replace( "‗", " " ).replace( "\"", "\\\"" ) );
