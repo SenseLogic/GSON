@@ -6,12 +6,12 @@
     "license": "LGPL-3.0-only",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/senselogic/GSON.git"
+        "url": "git+https://github.com/SenseLogic/GSON.git"
     },
     "bugs": {
-        "url": "https://github.com/senselogic/GSON/issues"
+        "url": "https://github.com/SenseLogic/GSON/issues"
     },
-    "homepage": "https://github.com/senselogic/GSON",
+    "homepage": "https://github.com/SenseLogic/GSON",
     "type": "module",
     "main": "index.js",
     "files": [

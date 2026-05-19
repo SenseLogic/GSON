@@ -1,4 +1,4 @@
-![](https://github.com/senselogic/GSON/blob/master/LOGO/gson.png)
+![](https://github.com/SenseLogic/GSON/blob/master/LOGO/gson.png)
 
 # GSON
 

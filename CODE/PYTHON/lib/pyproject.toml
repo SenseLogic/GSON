@@ -18,8 +18,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/senselogic/GSON"
-Repository = "https://github.com/senselogic/GSON"
+Homepage = "https://github.com/SenseLogic/GSON"
+Repository = "https://github.com/SenseLogic/GSON"
 
 [tool.setuptools]
 # Expose this directory as the installable package `senselogic_gson`

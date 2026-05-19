@@ -2,6 +2,19 @@
 name = "senselogic_gson"
 version = "0.4.0"
 edition = "2021"
+description = "Granular Structured Object Notation (GSON), a JSON superset with multiline strings, file inclusion, and UUID/TUID generation."
+readme = "README.md"
+license = "LGPL-3.0-only"
+authors = ["Eric Pelzer <ecstatic.coder@gmail.com>"]
+homepage = "https://github.com/SenseLogic/GSON"
+repository = "https://github.com/SenseLogic/GSON"
+keywords = ["gson", "json", "parser", "serialization", "unicode"]
+categories = ["parser", "encoding", "text-processing"]
+exclude = [
+    "OUT/",
+    "src/bin/",
+    "*.bat"
+]
 
 [dependencies]
 base64 = "0.22"
@@ -14,3 +27,4 @@ serde_json = { version = "1.0", features = ["preserve_order"] }
 [[bin]]
 name = "test"
 path = "src/bin/test.rs"
+publish = false
