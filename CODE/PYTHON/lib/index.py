@@ -12,7 +12,6 @@ from .writing import write_file_text, write_gson_value;
 
 __all__ = [
     "build_gson_text",
-    "get_dump_text",
     "get_read_json_text",
     "get_text_hash",
     "get_text_tuid",

@@ -87,10 +87,10 @@
     "text":
         "first line\nsecond line\nthird line  \n  fourth line\nfifth line"
 },
-    "included2":
+    "included3":
         {
     "path":
-        "included/included/included_3.gson",
+        "included/included/included_3.json",
     "text":
         "first line\nsecond line\nthird line  \n  fourth line\nfifth line"
 }
@@ -115,12 +115,19 @@
     "text":
         "first line\nsecond line\nthird line  \n  fourth line\nfifth line"
 },
-    "included2":
+    "included3":
         {
     "path":
-        "included/included/included_3.gson",
+        "included/included/included_3.json",
     "text":
         "first line\nsecond line\nthird line  \n  fourth line\nfifth line"
+},
+    "included4":
+        {
+    "path":
+        "included/included/included_4.gson",
+    "text":
+        "first line\n\"second line\"\n'third line '\n` fourth line`\n´fifth line´\nsixth line"
 }
 }
 }

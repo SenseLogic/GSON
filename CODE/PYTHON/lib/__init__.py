@@ -3,7 +3,6 @@
 
 from .index import (
     build_gson_text,
-    get_dump_text,
     get_read_json_text,
     get_text_hash,
     get_text_tuid,
@@ -23,7 +22,6 @@ from .index import (
 
 __all__ = [
     "build_gson_text",
-    "get_dump_text",
     "get_read_json_text",
     "get_text_hash",
     "get_text_tuid",
